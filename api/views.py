@@ -40,18 +40,6 @@ def send_profile_verification(request):
     return Response(response.json(), status=response.status_code)
 
 
-def _profile_is_verified(profile: Profile) -> bool:
-    if profile.verification == COMPLETED:
-        return True
-    else:
-        return False
-
-def _format_phone_number(phone: str) -> str:
-    if ~phone.find('+'):
-        phone = phone[phone.find('+') + 1:]
-    return phone
-
-
 @api_view(['GET'])
 def profile_is_verified(request):
     ''' Проверка завершена-ли верификация '''
@@ -135,3 +123,15 @@ def sign_in(request):
 def sign_out(request):
     logout(request)
     return Response(data='Success', status=200)
+
+
+def _profile_is_verified(profile: Profile) -> bool:
+    if profile.verification == COMPLETED:
+        return True
+    else:
+        return False
+
+def _format_phone_number(phone: str) -> str:
+    if ~phone.find('+'):
+        phone = phone[phone.find('+') + 1:]
+    return phone
