@@ -15,10 +15,8 @@ API_KEY = settings.API_KEY
 @api_view(['POST'])
 def send_profile_verification(request):
     ''' Отправка СМС сообщения для верификации телефонного номера '''
-    phone = request.POST.get('phone')
+    phone = _format_phone_number(request.POST.get('phone'))
     code = randint(1000, 9999)
-
-
     
     try:
         profile = Profile.objects.get(phone=phone)
