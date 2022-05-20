@@ -43,6 +43,13 @@ def send_profile_verification(request):
     return Response(response.json(), status=response.status_code)
 
 
+def _profile_is_verified(profile: Profile) -> bool:
+    if profile.verification == COMPLETED:
+        return True
+    else:
+        return False
+
+
 @api_view(['GET'])
 def profile_is_verified(request):
     ''' Проверка завершена-ли верификация '''
