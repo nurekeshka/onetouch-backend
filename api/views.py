@@ -18,8 +18,7 @@ def send_profile_verification(request):
     phone = request.POST.get('phone')
     code = randint(1000, 9999)
 
-    if ~phone.find('+'):
-        phone = phone[phone.find('+') + 1:]
+
     
     try:
         profile = Profile.objects.get(phone=phone)
@@ -48,6 +47,11 @@ def _profile_is_verified(profile: Profile) -> bool:
         return True
     else:
         return False
+
+def _format_phone_number(phone: str) -> str:
+    if ~phone.find('+'):
+        phone = phone[phone.find('+') + 1:]
+    return phone
 
 
 @api_view(['GET'])
@@ -93,7 +97,7 @@ def create_verified_user(request):
     except Profile.DoesNotExist:
         return Response(data='Profile with that number does not exist', status=406)
 
-    if profile.verification == 'completed':
+    if profile.verification == COMPLETED:
         if not profile.user:
             user = User.objects.create(
                 username=request.POST.get('username'),
