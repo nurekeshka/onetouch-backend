@@ -14,6 +14,7 @@ API_KEY = settings.API_KEY
 
 @api_view(['POST'])
 def send_profile_verification(request):
+    ''' Отправка СМС сообщения для верификации телефонного номера '''
     phone = request.POST.get('phone')
     code = randint(1000, 9999)
 
@@ -44,6 +45,7 @@ def send_profile_verification(request):
 
 @api_view(['GET'])
 def profile_is_verified(request):
+    ''' Проверка завершена-ли верификация '''
     try:
         profile = Profile.objects.get(phone=request.GET.get('phone'))
     except Profile.DoesNotExist:
@@ -57,6 +59,7 @@ def profile_is_verified(request):
 
 @api_view(['GET'])
 def verify_profile_phone(request):
+    ''' Верификация телефонного номера с проверкой СМС кода '''
     phone = request.GET.get('phone')
     code = request.GET.get('code')
 
@@ -78,7 +81,7 @@ def verify_profile_phone(request):
 
 @api_view(['POST'])
 def create_verified_user(request):
-    ''' После проверки пользователя внос информации '''
+    ''' После проверки пользователя заполнение информации '''
     phone = request.POST.get('phone')
     
     try:
