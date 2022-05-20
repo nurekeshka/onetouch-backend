@@ -2,14 +2,14 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from rest_framework.decorators import api_view
-import requests, urllib.parse, os
-from dotenv import load_dotenv
+from django.conf import settings
+import requests, urllib.parse
 from random import randint
 from .models import Profile
 
 
-load_dotenv()
-completed = 'completed'
+COMPLETED = settings.COMPLETED
+API_KEY = settings.API_KEY
 
 
 @api_view(['POST'])
@@ -29,7 +29,7 @@ def send_profile_verification(request):
     response = requests.get(
         url='https://api.mobizon.kz/service/Message/SendSmsMessage',
         params={
-            'apiKey': os.environ.get('SMS_API_KEY'),
+            'apiKey': API_KEY,
             'recipient': urllib.parse.quote(phone),
             'text': urllib.parse.quote(f'Код для верификации номера: {code}')
         }
@@ -49,7 +49,7 @@ def profile_is_verified(request):
     except Profile.DoesNotExist:
         return Response(data='Profile with that phone number does not exist', status=406)
 
-    if profile.verification == completed:
+    if profile.verification == COMPLETED:
         return Response(data=True, status=200)
     else:
         return Response(data=False, status=200)
@@ -65,9 +65,9 @@ def verify_profile_phone(request):
     except Profile.DoesNotExist:
         return Response(data='Profile with that phone number does not exist', status=406)
 
-    if profile.verification != completed:
+    if profile.verification != COMPLETED:
         if profile.verification == code:
-            profile.verification = completed
+            profile.verification = COMPLETED
             profile.save()
             return Response(data='Success', status=200)
         else:
