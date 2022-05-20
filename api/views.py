@@ -1,3 +1,127 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
+from rest_framework.decorators import api_view
+import requests, urllib.parse, os
+from dotenv import load_dotenv
+from random import randint
+from .models import Profile
 
-# Create your views here.
+
+load_dotenv()
+completed = 'completed'
+
+
+@api_view(['POST'])
+def send_profile_verification(request):
+    phone = request.POST.get('phone')
+    code = randint(1000, 9999)
+
+    if ~phone.find('+'):
+        phone = phone[phone.find('+') + 1:]
+    
+    try:
+        profile = Profile.objects.get(phone=phone)
+        return Response(data='User already exists', status=406)
+    except Profile.DoesNotExist:
+        pass
+
+    response = requests.get(
+        url='https://api.mobizon.kz/service/Message/SendSmsMessage',
+        params={
+            'apiKey': os.environ.get('SMS_API_KEY'),
+            'recipient': urllib.parse.quote(phone),
+            'text': urllib.parse.quote(f'Код для верификации номера: {code}')
+        }
+    )
+
+    if response.json()['code'] == 0:
+        profile = Profile.objects.create(phone=phone, verification=code)
+        profile.save()
+
+    return Response(response.json(), status=response.status_code)
+
+
+@api_view(['GET'])
+def profile_is_verified(request):
+    try:
+        profile = Profile.objects.get(phone=request.GET.get('phone'))
+    except Profile.DoesNotExist:
+        return Response(data='Profile with that phone number does not exist', status=406)
+
+    if profile.verification == completed:
+        return Response(data=True, status=200)
+    else:
+        return Response(data=False, status=200)
+
+
+@api_view(['GET'])
+def verify_profile_phone(request):
+    phone = request.GET.get('phone')
+    code = request.GET.get('code')
+
+    try:
+        profile = Profile.objects.get(phone=phone)
+    except Profile.DoesNotExist:
+        return Response(data='Profile with that phone number does not exist', status=406)
+
+    if profile.verification != completed:
+        if profile.verification == code:
+            profile.verification = completed
+            profile.save()
+            return Response(data='Success', status=200)
+        else:
+            return Response(data='Incorrect verification code', status=406)
+    else:
+        return Response(data='Profile is verified', status=400)
+
+
+@api_view(['POST'])
+def create_verified_user(request):
+    ''' После проверки пользователя внос информации '''
+    phone = request.POST.get('phone')
+    
+    try:
+        profile = Profile.objects.get(phone=phone)
+    except Profile.DoesNotExist:
+        return Response(data='Profile with that number does not exist', status=406)
+
+    if profile.verification == 'completed':
+        if not profile.user:
+            user = User.objects.create(
+                username=request.POST.get('username'),
+                password=request.POST.get('password'),
+                first_name=request.POST.get('first_name'),
+                last_name=request.POST.get('last_name')
+            )
+
+            user.save()
+
+            profile.user = user
+            profile.photo = request.POST.get('photo')
+
+            profile.save()
+            return Response(data='User created successfully', status=201)
+        else:
+            return Response(data='User with that profile is already created', status=406)
+    else:
+        return Response(data='User is not verified', status=406)
+
+
+@api_view(['POST'])
+def sign_in(request):
+    user = authenticate(
+        request=request,
+        username=request.GET.get('username'),
+        password=request.POST.get('password')
+    )
+
+    if user is not None:
+        login(request, user)
+    else:
+        return Response(data='Username or password is not valid', status=406)
+
+
+@api_view(['GET'])
+def sign_out(request):
+    logout(request)
