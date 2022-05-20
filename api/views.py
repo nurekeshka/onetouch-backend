@@ -58,10 +58,7 @@ def profile_is_verified(request):
     except Profile.DoesNotExist:
         return Response(data='Profile with that phone number does not exist', status=406)
 
-    if profile.verification == COMPLETED:
-        return Response(data=True, status=200)
-    else:
-        return Response(data=False, status=200)
+    return Response(_profile_is_verified(profile))
 
 
 @api_view(['GET'])
@@ -135,3 +132,4 @@ def sign_in(request):
 @api_view(['GET'])
 def sign_out(request):
     logout(request)
+    return Response(data='Success', status=200)
