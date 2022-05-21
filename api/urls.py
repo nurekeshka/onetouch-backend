@@ -7,5 +7,6 @@ urlpatterns = [
     path('profiles/verified', views.profile_is_verified, name='verified'),
     path('users/create', views.create_verified_user, name='create-verified-user'),
     path('users/sign-in', views.sign_in, name='sign-in'),
-    path('users/sign-out', views.sign_out, name='sign-out')
+    path('users/sign-out', views.sign_out, name='sign-out'),
+    path('users/is-authenticated', views.is_authenticated, name='is-authenticated')
 ]

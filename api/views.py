@@ -20,24 +20,25 @@ def send_profile_verification(request):
     
     try:
         profile = Profile.objects.get(phone=phone)
-        return Response(data='User already exists', status=406)
+        return Response(data='Profile already exists', status=406)
     except Profile.DoesNotExist:
         pass
 
-    response = requests.get(
-        url='https://api.mobizon.kz/service/Message/SendSmsMessage',
-        params={
-            'apiKey': API_KEY,
-            'recipient': urllib.parse.quote(phone),
-            'text': urllib.parse.quote(f'Код для верификации номера: {code}')
-        }
-    )
+    # response = requests.get(
+    #     url='https://api.mobizon.kz/service/Message/SendSmsMessage',
+    #     params={
+    #         'apiKey': API_KEY,
+    #         'recipient': urllib.parse.quote(phone),
+    #         'text': urllib.parse.quote(f'Код для верификации номера: {code}')
+    #     }
+    # )
 
-    if response.json()['code'] == 0:
-        profile = Profile.objects.create(phone=phone, verification=code)
-        profile.save()
+    # if response.json()['code'] == 0:
+    profile = Profile.objects.create(phone=phone, verification=code)
+    profile.save()
 
-    return Response(response.json(), status=response.status_code)
+    # return Response(response.json(), status=response.status_code)
+    return Response(data='Created')
 
 
 @api_view(['GET'])
@@ -123,6 +124,11 @@ def sign_in(request):
 def sign_out(request):
     logout(request)
     return Response(data='Success', status=200)
+
+
+@api_view(['GET'])
+def is_authenticated(request):
+    return Response(request.user.is_authenticated)
 
 
 def _profile_is_verified(profile: Profile) -> bool:
