@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.conf import settings
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -12,3 +13,8 @@ class Profile(models.Model):
         verbose_name_plural = 'profiles'
     def __str__(self):
         return self.phone
+    def is_verified(self):
+        if self.verification == settings.COMPLETED:
+            return True
+        else:
+            return False
