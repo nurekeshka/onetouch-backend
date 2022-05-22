@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('', views.test, name='test'),
     path('profiles/send-sms-verification', views.send_profile_verification, name='send-sms-verification'),
     path('profiles/verify-phone', views.verify_profile_phone, name='verify-phone-number'),
     path('profiles/verified', views.profile_is_verified, name='verified'),
