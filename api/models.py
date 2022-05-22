@@ -12,7 +12,7 @@ class Profile(models.Model):
         verbose_name = 'profile'
         verbose_name_plural = 'profiles'
     def __str__(self):
-        return self.phone
+        return self.user.username
     def is_verified(self):
         if self.verification == settings.COMPLETED:
             return True
