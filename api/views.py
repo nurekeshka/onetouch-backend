@@ -26,18 +26,18 @@ def send_profile_verification(request):
     if Profile.objects.filter(phone=phone).exists():
         return Response(data='Profile already exists', status=406)
 
-    # response = requests.get(
-    #     url='https://api.mobizon.kz/service/Message/SendSmsMessage',
-    #     params={
-    #         'apiKey': settings.API_KEY,
-    #         'recipient': urllib.parse.quote(_format_phone_number(request.POST.get('phone'))),
-    #         'text': urllib.parse.quote(f'Код для верификации номера: {code}')
-    #     }
-    # )
+    response = requests.get(
+        url='https://api.mobizon.kz/service/Message/SendSmsMessage',
+        params={
+            'apiKey': settings.API_KEY,
+            'recipient': urllib.parse.quote(_format_phone_number(request.POST.get('phone'))),
+            'text': urllib.parse.quote(f'Код для верификации номера: {code}')
+        }
+    )
 
-    # if response.json()['code'] == 0:
-    profile = Profile.objects.create(phone=phone, verification=code)
-    profile.save()
+    if response.json()['code'] == 0:
+        profile = Profile.objects.create(phone=phone, verification=code)
+        profile.save()
 
     serializer = ProfileSerializer(profile, many=False)
 
