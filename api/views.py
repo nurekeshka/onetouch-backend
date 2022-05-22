@@ -122,6 +122,8 @@ def sign_in(request):
 
     if user is not None:
         login(request, user)
+        serializer = UserSerializer(user, many=False)
+        return Response(serializer.data)
     else:
         return Response(data='Username or password is not valid', status=406)
 
