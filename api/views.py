@@ -72,10 +72,10 @@ def verify_profile_phone(request):
 def profile_is_verified(request):
     ''' Проверка завершена-ли верификация '''
     ''' profiles/verified '''
-    profile = Profile.objects.filter(phone=request.GET.get('phone'))
+    phone=request.GET.get('phone')
 
-    if profile.exists():
-        return Response(profile[0].is_verified())
+    if Profile.objects.filter(phone=phone).exists():
+        return Response(Profile.objects.get(phone=phone).is_verified())
     else:
         return Response(data='Profile with that phone number does not exist', status=406)    
 
