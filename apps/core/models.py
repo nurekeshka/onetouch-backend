@@ -11,7 +11,7 @@ class Phone(models.Model):
 
 
 class User(AbstractUser):
-    USERNAME_FIELD = 'phone_number'
+    USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ('username',)
 
     username = models.CharField(max_length=50, verbose_name='username')
