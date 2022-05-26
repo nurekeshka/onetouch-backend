@@ -18,6 +18,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=15, unique=True, verbose_name='phone number')
     photo = models.URLField(null=True, blank=True, verbose_name='photo link')
     birth_date = models.DateField(null=True, blank=True, verbose_name='birth date')
+    email = models.EmailField(null=True, blank=True, verbose_name='email')
 
     class Meta:
         verbose_name = 'user'
