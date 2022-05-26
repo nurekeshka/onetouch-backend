@@ -26,3 +26,8 @@ def verificate_phone(request):
     body, status = service.verification(phone, code)
 
     return Response(data=body, status=status)
+
+@api_view(['POST'])
+def create_user(request):
+    body, status = service.create_verified_user(request.POST)
+    return Response(data=body, status=status)
