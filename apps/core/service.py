@@ -8,7 +8,7 @@ from random import randint
 from requests import get
 
 
-def start_new_verification(payload: str):
+def start_new_verification(payload: str) -> tuple:
     if not is_valid_phone(payload):
         return {
                 'error': 'invalid phone number',
@@ -51,7 +51,7 @@ def start_new_verification(payload: str):
     #     return data, response.status_code
 
 
-def verification(number: str, code: str):
+def verification(number: str, code: str) -> tuple:
     if not is_valid_phone(number):
         return {
                 'error': 'invalid phone number',
@@ -74,7 +74,7 @@ def verification(number: str, code: str):
     }, 200
 
 
-def is_valid_phone(payload: str):
+def is_valid_phone(payload: str) -> bool:
     try:
         if pns.is_possible_number(pns.parse(payload)):
             return True
@@ -82,7 +82,7 @@ def is_valid_phone(payload: str):
         return False
 
 
-def create_verified_user(info: dict):
+def create_verified_user(info: dict) -> tuple:
     phone = info.get('phone')
 
     if not Verification.objects.filter(phone=phone).exists():
