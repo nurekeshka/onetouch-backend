@@ -37,13 +37,18 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.board.apps.ApiConfig',
+
+    # Project apps
+    'apps.api.apps.ApiConfig',
+
+    # REST Framework
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
@@ -87,7 +92,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -136,7 +141,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Environ variables
 load_dotenv()
 API_KEY = os.environ.get('SMS_API_KEY')
-COMPLETED = 'completed'
 
 # REST Framework configuration
 REST_FRAMEWORK = {
@@ -144,3 +148,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+# Authentication model
+AUTH_USER_MODEL =  'core.User'
