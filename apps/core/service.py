@@ -2,11 +2,18 @@ from rest_framework.authtoken.models import Token
 from django.conf import settings
 from .models import User, Verification
 from .constants import send_sms_url
+import phonenumbers as pns
 from random import randint
 from requests import get
 
 
 def start_new_verification(payload: str):
+    if not pns.is_possible_number(pns.parse(payload)):
+        return {
+            'error': 'invalid phone number',
+            'success': False,
+        }, 400
+
     if User.objects.filter(phone=payload).exists():
         return {
             'error': 'user with that phone number already exists',
@@ -41,3 +48,7 @@ def start_new_verification(payload: str):
     else:
         verification.delete()
         return data, response.status_code
+
+
+def verification(number: str, code: str):
+    return None
