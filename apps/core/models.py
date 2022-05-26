@@ -5,9 +5,9 @@ from django.db import models
 from django.dispatch import receiver
 
 
-class Phone(models.Model):
+class Verification(models.Model):
     phone = models.CharField(max_length=15, unique=True, verbose_name='phone number')
-    verification = models.CharField(max_length=10, verbose_name='verification')
+    code = models.CharField(max_length=10, verbose_name='verification')
 
 
 class User(AbstractUser):
