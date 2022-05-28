@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 
     # Project apps
     'apps.api.apps.ApiConfig',
-    'apps.user.apps.UserConfig',
+    'apps.core.apps.CoreConfig',
 
     # REST Framework
     'rest_framework',
@@ -151,4 +151,4 @@ REST_FRAMEWORK = {
 }
 
 # Authentication model
-AUTH_USER_MODEL =  'user.User'
+AUTH_USER_MODEL =  'core.User'
