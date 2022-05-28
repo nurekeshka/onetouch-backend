@@ -11,6 +11,7 @@ class UserAdmin(admin.ModelAdmin):
         ('username', 'photo'),
         ('email', 'birth_date'),
         'groups', 'user_permissions',
+        'date_joined',
     )
 
 @admin.register(models.Verification)
