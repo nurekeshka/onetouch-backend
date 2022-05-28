@@ -3,6 +3,7 @@ from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
 from django.db import models
 from django.dispatch import receiver
+import datetime
 
 
 class Verification(models.Model):
@@ -27,6 +28,10 @@ class User(AbstractUser):
     
     def __str__(self):
         return self.username
+    def age(self):
+        today = datetime.date.today()
+        age = today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+        return age
 
 @receiver(post_save, sender=User)
 def create_user_token(sender, instance, created, **kwargs):
