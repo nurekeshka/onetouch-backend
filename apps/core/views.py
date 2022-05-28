@@ -12,8 +12,8 @@ def verification_sms(request):
         return Response(data={'error': 'phone is not specified'}, status=400)
     
     body, status = service.start_new_verification(phone)
-
     return Response(data=body, status=status)
+
 
 @api_view(['PUT'])
 def verificate_phone(request):
@@ -24,8 +24,8 @@ def verificate_phone(request):
         return Response(data={'error': 'phone and verification code are required'}, status=400)
     
     body, status = service.verification(phone, code)
-
     return Response(data=body, status=status)
+
 
 @api_view(['POST'])
 def create_user(request):
