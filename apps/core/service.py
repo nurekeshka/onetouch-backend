@@ -1,4 +1,4 @@
-from .serializers import UserSerializer, TokenSerializer
+from .serializers import GetUserSerializer, CreateUserSerializer, TokenSerializer
 from rest_framework.authtoken.models import Token
 from django.conf import settings
 from .models import User, Verification
@@ -83,43 +83,15 @@ def is_valid_phone(payload: str) -> bool:
 
 
 def create_verified_user(info: dict) -> tuple:
-    serializer = UserSerializer(data=info)
+    user_serializer = CreateUserSerializer(data=info, many=False)
     
-    if not serializer.is_valid():
-        return serializer.errors, 400
+    if user_serializer.is_valid():
+        user = user_serializer.create(user_serializer.validated_data)
+        user.save()
+    else:
+        return user_serializer.errors, 400
 
-    phone = info.get('phone')
-
-    if not Verification.objects.filter(phone=phone).exists():
-        return {
-            'error': 'phone number does not exist in database',
-            'success': False,
-        }, 404
-
-    verification = Verification.objects.get(phone=phone)
-
-    if verification.code != confirmed:
-        return {
-            'error': 'phone number did not finish verification process',
-            'success': False
-        }, 400
-
-    user = User.objects.create(
-            phone=verification.phone,
-            username=info.get('username'),
-            photo=info.get('photo'),
-            birth_date=info.get('birthdate'),
-            first_name=info.get('first_name'),
-            last_name=info.get('last_name'),
-            email=info.get('email')
-        )
-
-    user.set_password(info.get('password'))
-    user.save()
-
-    user_serializer = UserSerializer(user, many=False)
-
-    verification.delete()
+    # verification.delete()
 
     token = Token.objects.get(user=user)
     token_serializer = TokenSerializer(token, many=False)
