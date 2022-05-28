@@ -83,6 +83,11 @@ def is_valid_phone(payload: str) -> bool:
 
 
 def create_verified_user(info: dict) -> tuple:
+    serializer = UserSerializer(data=info)
+    
+    if not serializer.is_valid():
+        return serializer.errors, 400
+
     phone = info.get('phone')
 
     if not Verification.objects.filter(phone=phone).exists():
@@ -114,7 +119,7 @@ def create_verified_user(info: dict) -> tuple:
 
     user_serializer = UserSerializer(user, many=False)
 
-    # verification.delete()
+    verification.delete()
 
     token = Token.objects.get(user=user)
     token_serializer = TokenSerializer(token, many=False)
