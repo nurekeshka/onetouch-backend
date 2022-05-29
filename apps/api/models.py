@@ -69,3 +69,8 @@ class Game(models.Model):
     
     def __str__(self):
         return self.field.address + ' || ' + str(self.form)
+    
+    def players_left(self):
+        max_players = self.form * 2
+        print(self.signed_users)
+        return max_players - self.signed_users.count()
