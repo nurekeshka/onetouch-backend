@@ -39,11 +39,6 @@ class VerificationSerializer(serializers.ModelSerializer):
         fields = ('phone', 'code')
 
     def create(self, validated_data):
-        phone = validated_data.get('phone')
-
-        if Verification.objects.filter(phone=phone).exists():
-            Verification.objects.get(phone=phone).delete()
-
         return Verification.objects.create(**validated_data)
 
     def validate_phone(self, value):
@@ -56,3 +51,5 @@ class VerificationSerializer(serializers.ModelSerializer):
         
         if User.objects.filter(phone=value).exists():
             raise serializers.ValidationError('User with that phone number already exists')
+        
+        return value
