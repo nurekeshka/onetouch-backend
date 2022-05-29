@@ -61,6 +61,7 @@ def create_verified_user(info: dict) -> tuple:
     
     if user_serializer.is_valid():
         user = user_serializer.create(user_serializer.validated_data)
+        user.set_password(info['password'])
         user.save()
     else:
         return user_serializer.errors, 400
