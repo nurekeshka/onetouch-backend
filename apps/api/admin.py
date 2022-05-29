@@ -20,3 +20,4 @@ class FieldAdmin(admin.ModelAdmin):
 class GameAdmin(admin.ModelAdmin):
     list_display = ('field', 'form', 'date', 'start', 'end')
     fields = ('field', 'form', 'date', 'start', 'end', 'signed_users')
+    order_by = ('date',)
