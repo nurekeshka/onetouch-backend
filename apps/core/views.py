@@ -1,4 +1,3 @@
-# from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -18,7 +17,7 @@ def verification_sms(request):
 
 @api_view(['PUT'])
 def verificate_phone(request):
-    body, status = service.verification(request.POST)
+    body, status = service.verify(request.POST)
     return Response(data=body, status=status)
 
 
