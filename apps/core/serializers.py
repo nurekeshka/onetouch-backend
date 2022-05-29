@@ -1,8 +1,8 @@
-from .constants import confirmed
-from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-import phonenumbers as pns
 from .models import User, Verification
+from rest_framework import serializers
+from .constants import confirmed
+import phonenumbers as pns
 
 
 class UserSerializer(serializers.ModelSerializer):
