@@ -13,6 +13,8 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create(**validated_data)
         user.set_password(validated_data.get('password'))
+        Verification.objects.get(phone=validated_data.get('phone')).delete()
+
         return user
 
     def validate_phone(self, value):
