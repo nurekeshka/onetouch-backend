@@ -49,7 +49,7 @@ class Game(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='date')
     start = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='start')
     end = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='end')
-    signed_users = models.ManyToManyField(User, verbose_name='signed_users')
+    signed_users = models.ManyToManyField(User, blank=True, verbose_name='signed_users')
 
     class Meta:
         verbose_name = 'game'
