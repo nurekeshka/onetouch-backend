@@ -18,13 +18,7 @@ def verification_sms(request):
 
 @api_view(['PUT'])
 def verificate_phone(request):
-    phone = request.POST.get('phone')
-    code = request.POST.get('code')
-
-    if phone is None or code is None:
-        return Response(data={'error': 'phone and verification code are required'}, status=400)
-    
-    body, status = service.verification(phone, code)
+    body, status = service.verification(request.POST)
     return Response(data=body, status=status)
 
 
