@@ -37,18 +37,22 @@ def start_new_verification(payload: str) -> tuple:
     #     return data, response.status_code
 
 
-def verification(payload: dict) -> tuple:
+def verify(payload: dict) -> tuple:
     try:
         verification = Verification.objects.get(phone=payload.get('phone'))
     except Verification.DoesNotExist:
         return {'phone': ['Does not exist in verification table']}, 404
     
-    if verification.code == confirmed: return {'phone': ['Already verified']}, 400
+    if verification.code == confirmed:
+        return {'phone': ['Already verified']}, 400
 
-    verification.code = confirmed
-    verification.save()
+    elif verification.code == payload.get('code'):
+        verification.code = confirmed
+        verification.save()
+        return {'phone': ['Successfully verified']}, 200
 
-    return {'phone': ['Successfully verified']}, 200
+    else:
+        return {'phone': ['Phone and code does not match together']}, 404
 
 
 def create_verified_user(info: dict) -> tuple:
@@ -59,8 +63,6 @@ def create_verified_user(info: dict) -> tuple:
         user.save()
     else:
         return user_serializer.errors, 400
-
-    verification.delete()
 
     token = Token.objects.get(user=user)
     token_serializer = TokenSerializer(token, many=False)
