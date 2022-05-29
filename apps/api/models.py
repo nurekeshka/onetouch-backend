@@ -41,6 +41,17 @@ class Field(models.Model):
     
     def __str__(self):
         return self.address
+    
+    def calculate_rate(self):
+        feedbacks = Feedback.objects.filter(field=self)
+        
+        summary = 0
+        count = len(feedbacks)
+
+        for i in range(count):
+            summary += feedbacks[i].raiting
+
+        return summary / count
 
 
 class Game(models.Model):
