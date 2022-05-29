@@ -1,5 +1,5 @@
-from .serializers import GameSerializer
-from .models import Game
+from .serializers import GameSerializer, FieldSerializer, FeedbackSerializer
+from .models import Game, Field, Feedback
 
 
 def get_all_games(params):
@@ -9,3 +9,13 @@ def get_all_games(params):
     serializer = GameSerializer(games, many=True)
     
     return serializer.data, 200
+
+
+def test(data):
+    # field = Field.objects.get(id=1)
+    # return field.calculate_rate()
+
+    game = Game.objects.get(id=3)
+    serializer = GameSerializer(game, many=False)
+
+    return game.players_left()

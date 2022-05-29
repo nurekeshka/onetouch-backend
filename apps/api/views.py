@@ -9,3 +9,9 @@ from . import service
 def get_all_games(request):
     body, status = service.get_all_games(request.GET)
     return Response(data=body, status=status)
+
+
+@api_view(['GET'])
+def test(request):
+    response = service.test(request.GET)
+    return Response(data=response)
