@@ -1,3 +1,8 @@
 from django.contrib import admin
+from . import models
 
-# Register your models here.
+
+@admin.register(models.Photo)
+class Photo(admin.ModelAdmin):
+    list_display = ('id', 'link')
+    fields = ('link',)
