@@ -24,6 +24,6 @@ class GameAdmin(admin.ModelAdmin):
 
 @admin.register(models.Team)
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    fields = ('name', 'players')
+    list_display = ('id', 'name', 'game')
+    fields = ('name', 'players', 'game')
     order_by = ('name')
