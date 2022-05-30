@@ -31,6 +31,8 @@ class Feedback(models.Model):
 
 class Field(models.Model):
     address = models.CharField(max_length=254, verbose_name='address')
+    latitude = models.FloatField(null=True, blank=True, verbose_name='latitude')
+    longitude = models.FloatField(null=True, blank=True, verbose_name='longitude')
     photo = models.ForeignKey(Photo, on_delete=models.CASCADE, verbose_name='photo')
     contacts = models.TextField(blank=True, verbose_name='contacts')
 
@@ -54,13 +56,27 @@ class Field(models.Model):
         return summary / count
 
 
+class Team(models.Model):
+    name = models.CharField(max_length=50, verbose_name='name')
+    players = models.ManyToManyField(User, blank=True, verbose_name='players')
+    game = models.ForeignKey('Game', blank=True, on_delete=models.CASCADE, verbose_name='game')
+
+    class Meta:
+        verbose_name = 'team'
+        verbose_name_plural = 'teams'
+        ordering = ('game',)
+    
+    def __str__(self):
+        return self.name
+
+
 class Game(models.Model):
     field = models.ForeignKey(Field, on_delete=models.PROTECT, verbose_name='field')
     form = models.IntegerField(verbose_name='form')
     date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='date')
     start = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='start')
     end = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='end')
-    signed_users = models.ManyToManyField(User, blank=True, verbose_name='signed_users')
+    teams = models.ManyToManyField(Team, blank=True, verbose_name='teams')
 
     class Meta:
         verbose_name = 'game'
@@ -69,8 +85,3 @@ class Game(models.Model):
     
     def __str__(self):
         return self.field.address + ' || ' + str(self.form)
-    
-    def players_left(self):
-        max_players = self.form * 2
-        print(self.signed_users)
-        return max_players - self.signed_users.count()
