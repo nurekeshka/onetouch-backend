@@ -1,5 +1,7 @@
 from .serializers import GameSerializer, FieldSerializer, FeedbackSerializer
 from .models import Game, Field, Feedback
+from apps.core.models import User
+from faker import Faker
 
 
 def get_all_games(params):
@@ -12,10 +14,20 @@ def get_all_games(params):
 
 
 def test(data):
-    field = Field.objects.get(id=1)
-    return field.calculate_rate()
+    return
 
-    # game = Game.objects.get(id=3)
-    # serializer = GameSerializer(game, many=False)
 
-    # return game.players_left()
+def create_fake_users(count: int):
+    fake = Faker()
+
+    for _ in range(count):
+        user = User.objects.create(
+            phone=fake.phone_number(),
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+            birth_date=fake.date(),
+            email=fake.email(),
+        )
+
+        user.set_password(fake.password())
+        user.save()
