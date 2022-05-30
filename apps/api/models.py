@@ -59,7 +59,6 @@ class Field(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=50, verbose_name='name')
     players = models.ManyToManyField(User, blank=True, verbose_name='players')
-    game = models.ForeignKey('Game', blank=True, on_delete=models.CASCADE, verbose_name='game')
 
     class Meta:
         verbose_name = 'team'
