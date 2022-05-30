@@ -12,10 +12,10 @@ def get_all_games(params):
 
 
 def test(data):
-    # field = Field.objects.get(id=1)
-    # return field.calculate_rate()
+    field = Field.objects.get(id=1)
+    return field.calculate_rate()
 
-    game = Game.objects.get(id=3)
-    serializer = GameSerializer(game, many=False)
+    # game = Game.objects.get(id=3)
+    # serializer = GameSerializer(game, many=False)
 
-    return game.players_left()
+    # return game.players_left()
