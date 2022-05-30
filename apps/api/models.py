@@ -59,6 +59,7 @@ class Field(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=50, verbose_name='name')
     players = models.ManyToManyField(User, blank=True, verbose_name='players')
+    game = models.ForeignKey('Game', on_delete=models.CASCADE, verbose_name='game')
 
     class Meta:
         verbose_name = 'team'
@@ -74,8 +75,7 @@ class Game(models.Model):
     form = models.IntegerField(verbose_name='form')
     date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='date')
     start = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='start')
-    end = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='end')
-    teams = models.ManyToManyField(Team, blank=True, verbose_name='teams')
+    end = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='end')\
 
     class Meta:
         verbose_name = 'game'
