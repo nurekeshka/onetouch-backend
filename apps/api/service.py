@@ -15,8 +15,9 @@ def get_all_games(params):
 
 
 def test(data):
-    field = Field.objects.get(id=data['id'])
-    return field.calculate_rate()
+    # field = Field.objects.get(id=data['id'])
+    # return field.calculate_rate()
+    return None
 
 
 def create_fake_users(count: int):
