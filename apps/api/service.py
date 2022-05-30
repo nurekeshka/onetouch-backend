@@ -15,10 +15,8 @@ def get_all_games(params):
 
 
 def test(data):
-    fields = Field.objects.all()
-
-    for field in fields:
-        create_fake_feedback(count=15, field=field)
+    field = Field.objects.get(id=data['id'])
+    return field.calculate_rate()
 
 
 def create_fake_users(count: int):
