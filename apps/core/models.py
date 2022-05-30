@@ -15,7 +15,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ('username',)
 
-    username = models.CharField(max_length=50, unique=True, verbose_name='username')
+    username = None
     phone = models.CharField(max_length=15, unique=True, verbose_name='phone number')
     photo = models.URLField(null=True, blank=True, verbose_name='photo link')
     birth_date = models.DateField(null=True, blank=True, verbose_name='birth date')
@@ -24,10 +24,11 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'user'
         verbose_name_plural = 'users'
-        ordering = ('username',)
+        ordering = ('phone',)
     
     def __str__(self):
-        return self.username
+        return self.phone
+
     def age(self):
         today = date.today()
         age = today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))

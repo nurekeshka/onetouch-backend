@@ -4,14 +4,13 @@ from . import models
 
 @admin.register(models.User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'first_name', 'last_name','phone')
+    list_display = ('phone', 'first_name', 'last_name', 'email', 'birth_date')
     fields = (
         ('phone', 'password'),
         ('first_name', 'last_name'),
-        ('username', 'photo'),
+        ('date_joined', 'photo'),
         ('email', 'birth_date'),
-        'groups', 'user_permissions',
-        'date_joined',
+        'groups', 'user_permissions'
     )
 
 @admin.register(models.Verification)
