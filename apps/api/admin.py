@@ -19,7 +19,7 @@ class FieldAdmin(admin.ModelAdmin):
 @admin.register(models.Game)
 class GameAdmin(admin.ModelAdmin):
     list_display = ('field', 'form', 'date', 'start', 'end')
-    fields = ('field', 'form', 'date', 'start', 'end', 'teams')
+    fields = ('field', 'form', 'date', 'start', 'end')
     order_by = ('date',)
 
 @admin.register(models.Team)
