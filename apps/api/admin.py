@@ -13,8 +13,8 @@ class FeedbackAdmin(admin.ModelAdmin):
 
 @admin.register(models.Field)
 class FieldAdmin(admin.ModelAdmin):
-    list_display = ('address', 'photo', 'contacts')
-    fields = ('address', 'photo', 'contacts')
+    list_display = ('address', 'latitude', 'longitude', 'photo', 'contacts')
+    fields = ('address','latitude', 'longitude', 'photo', 'contacts')
 
 @admin.register(models.Game)
 class GameAdmin(admin.ModelAdmin):
