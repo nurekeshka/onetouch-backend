@@ -15,7 +15,16 @@ def get_all_games(params):
 
 
 def test(data):
-    return
+    game = Game.objects.all()[0]
+
+    return {
+        'address': game.field.address,
+        'field_raiting': game.field.calculate_rate(),
+        'latitude': game.field.latitude,
+        'longitude': game.field.longitude,
+        'players_left': 0,
+        'photo': game.field.photo
+    }
 
 
 def create_fake_users(count: int):
