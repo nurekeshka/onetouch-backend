@@ -1,4 +1,4 @@
-from .serializers import GameSerializer, FieldSerializer, FeedbackSerializer
+from .serializers import GameSerializer, FieldSerializer, FeedbackSerializer, TeamSerializer
 from .models import Game, Field, Feedback, Photo
 from apps.core.models import User
 from faker import Faker
@@ -17,14 +17,26 @@ def get_all_games(params):
 def test(data):
     game = Game.objects.all()[0]
 
-    return {
-        'address': game.field.address,
-        'field_raiting': game.field.calculate_rate(),
-        'latitude': game.field.latitude,
-        'longitude': game.field.longitude,
-        'players_left': 0,
-        'photo': game.field.photo
-    }
+    # return {
+    #     'address': game.field.address,
+    #     'field_raiting': game.field.calculate_rate(),
+    #     'latitude': game.field.latitude,
+    #     'longitude': game.field.longitude,
+    #     'players_left': 0,
+    #     'photo': game.field.photo.link
+    # }
+
+    return TeamSerializer(game.get_players_left(), many=True).data
+
+
+def create_fake_information():
+    create_fake_users(50)
+    create_fake_fields(15)
+
+    fields = Field.objects.all()
+
+    for field in fields:
+        create_fake_feedback(10, field)
 
 
 def create_fake_users(count: int):
