@@ -77,7 +77,7 @@ class Game(models.Model):
     form = models.IntegerField(verbose_name='form')
     date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='date')
     start = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='start')
-    end = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='end')\
+    end = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='end')
 
     class Meta:
         verbose_name = 'game'
@@ -112,3 +112,16 @@ def save_teams(sender, instance, **kwargs):
             game=instance,
             name=name
         ).save()
+
+
+class Facility(models.Model):
+    name = models.CharField(max_length=50, verbose_name='name')
+    icons_link = models.URLField(verbose_name='icons link')
+
+    class Meta:
+        verbose_name = 'facility'
+        verbose_name_plural = 'facilities'
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
