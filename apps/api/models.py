@@ -87,7 +87,7 @@ class Game(models.Model):
     def __str__(self):
         return f'{self.field.address} : {self.form - 1}+1, {self.date}, {self.start} - {self.end}'
 
-    def get_players_left(self):
+    def players_left(self):
         teams = Team.objects.filter(game=self)
         return teams
 
