@@ -89,7 +89,12 @@ class Game(models.Model):
 
     def players_left(self):
         teams = Team.objects.filter(game=self)
-        return teams
+        available_places = len(teams) * self.form
+
+        for team in teams:
+            available_places -= team.players.count()
+
+        return available_places
 
 @receiver(post_save, sender=Game)
 def create_teams(sender, instance, created, **kwargs):
