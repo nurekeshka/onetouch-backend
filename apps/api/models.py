@@ -1,6 +1,8 @@
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from apps.core.models import User
 from django.db import models
-
+from .constants import TEAM_NAMES
 
 class Photo(models.Model):
     link = models.URLField(null=True, blank=True, unique=True, verbose_name='link')
@@ -83,4 +85,25 @@ class Game(models.Model):
         ordering = ('date', 'field')
     
     def __str__(self):
-        return self.field.address + ' || ' + str(self.form)
+        return f'{self.field.address}, {self.form - 1}+1, {self.date}, {self.start} - {self.end}'
+
+    def get_players_left(self):
+        teams = Team.objects.filter(game=self)
+        return teams
+
+@receiver(post_save, sender=Game)
+def create_teams(sender, instance, created, **kwargs):
+    if created:
+        for name in TEAM_NAMES:
+            Team.objects.create(
+                name=name,
+                game=instance
+            )
+
+@receiver(post_save, sender=Game)
+def save_teams(sender, instance, **kwargs):
+    for name in TEAM_NAMES:
+        Team.objects.get(
+            game=instance,
+            name=name
+        ).save()
