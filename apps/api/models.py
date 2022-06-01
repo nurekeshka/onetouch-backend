@@ -35,7 +35,7 @@ class Field(models.Model):
     address = models.CharField(max_length=254, verbose_name='address')
     latitude = models.FloatField(null=True, blank=True, verbose_name='latitude')
     longitude = models.FloatField(null=True, blank=True, verbose_name='longitude')
-    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, verbose_name='photo')
+    photo = models.ManyToManyField(Photo, verbose_name='photo')
     contacts = models.TextField(blank=True, verbose_name='contacts')
     facilities = models.ManyToManyField('Facility', verbose_name='facilities')
 
