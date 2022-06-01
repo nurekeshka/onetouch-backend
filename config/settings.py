@@ -145,7 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Environ variables
 load_dotenv()
 SMS_API_KEY = os.environ.get('SMS_API_KEY')
-GOOGLE_MAP_API_KEY=os.environ.get('GOOGLE_MAP_API_KEY')
+GEOCODER_API_KEY=os.environ.get('GRAPH_HOPPER_API_KEY')
 
 # REST Framework configuration
 REST_FRAMEWORK = {
