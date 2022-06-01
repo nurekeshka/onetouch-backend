@@ -15,7 +15,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ('username',)
 
-    username = None
+    username = models.CharField(max_length=50, verbose_name='username')
     phone = models.CharField(max_length=15, unique=True, verbose_name='phone number')
     photo = models.URLField(null=True, blank=True, verbose_name='photo link')
     birth_date = models.DateField(null=True, blank=True, verbose_name='birth date')
