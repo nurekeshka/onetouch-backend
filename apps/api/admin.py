@@ -27,3 +27,9 @@ class TeamAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'game')
     fields = ('name', 'players', 'game')
     order_by = ('name')
+
+@admin.register(models.Facility)
+class FacilityAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'icons_link')
+    fields = ('name', 'icons_link')
+    order_by = ('name')
