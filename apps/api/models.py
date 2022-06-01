@@ -37,6 +37,7 @@ class Field(models.Model):
     longitude = models.FloatField(null=True, blank=True, verbose_name='longitude')
     photo = models.ForeignKey(Photo, on_delete=models.CASCADE, verbose_name='photo')
     contacts = models.TextField(blank=True, verbose_name='contacts')
+    facilities = models.ManyToManyField('Facility', verbose_name='facilities')
 
     class Meta:
         verbose_name = 'field'
