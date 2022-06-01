@@ -27,7 +27,7 @@ class User(AbstractUser):
         ordering = ('phone',)
     
     def __str__(self):
-        return self.phone
+        return self.get_full_name()
 
     def age(self):
         today = date.today()
