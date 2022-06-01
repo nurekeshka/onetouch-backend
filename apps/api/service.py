@@ -1,8 +1,10 @@
 from .serializers import GameSerializer, FieldSerializer, FeedbackSerializer, TeamSerializer
 from .models import Game, Field, Feedback, Photo
+from django.conf import settings
 from apps.core.models import User
 from faker import Faker
 from random import randint
+from requests import get
 
 
 # GETTING GAME FOR APPLICATION FEED
@@ -31,8 +33,17 @@ def all_games_for_one_day(params):
 # FUNCTIONS FOR TESTING
 
 def test(data):
-    game = Game.objects.all()[0]
-    return TeamSerializer(game.players_left(), many=True).data
+    response = get(
+        url='https://graphhopper.com/api/1/geocode/',
+        params={
+            'q': data.get('address'),
+            'locale': 'ru',
+            'limit': 3,
+            'key': settings.GEOCODER_API_KEY
+        }
+    )
+
+    return response.json()
 
 
 # CREATING FAKE INFORMATION FOR TESTING
