@@ -1,5 +1,6 @@
+from dataclasses import fields
 from rest_framework import serializers
-from .models import Game, Field, Feedback
+from .models import Game, Field, Feedback, Team
 
 
 class GameSerializer(serializers.ModelSerializer):
@@ -18,3 +19,8 @@ class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
         fields = ('id', 'raiting', 'description', 'user', 'field')
+
+class TeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = ('id', 'name', 'players', 'game')
