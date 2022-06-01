@@ -8,7 +8,7 @@ from random import randint
 # GETTING GAME FOR APPLICATION FEED
 # recieves: date, ordering
 
-def get_all_games(params):
+def all_games_for_one_day(params):
     ordering = 1 if int(params.get('ordering')) else -1
     
     games = Game.objects.filter(date=params['date']).order_by('start', )[0::ordering]

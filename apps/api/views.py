@@ -7,7 +7,7 @@ from . import service
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_all_games(request):
-    body, status = service.get_all_games(request.GET)
+    body, status = service.all_games_for_one_day(request.GET)
     return Response(data=body, status=status)
 
 
