@@ -22,7 +22,7 @@ def start_new_verification(payload: str) -> tuple:
     response = get(
         url=send_sms_url,
         params={
-            'apiKey': settings.API_KEY,
+            'apiKey': settings.SMS_API_KEY,
             'recipient': verification.phone,
             'text': f'GameRoom account verification code: {verification.code}'
         }
