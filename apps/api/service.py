@@ -14,6 +14,8 @@ def get_all_games(params):
     return serializer.data, 200
 
 
+# FUNCTIONS FOR TESTING
+
 def test(data):
     game = Game.objects.all()[0]
 
@@ -28,6 +30,8 @@ def test(data):
 
     return TeamSerializer(game.get_players_left(), many=True).data
 
+
+# CREATING FAKE INFORMATION FOR TESTING
 
 def create_fake_information():
     create_fake_users(50)
