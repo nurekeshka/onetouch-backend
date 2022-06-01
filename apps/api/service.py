@@ -5,30 +5,34 @@ from faker import Faker
 from random import randint
 
 
+# GETTING GAME FOR APPLICATION FEED
+# recieves: date, ordering
+
 def get_all_games(params):
-    ordering = 1 if int(params.get('increment')) else -1
+    ordering = 1 if int(params.get('ordering')) else -1
     
     games = Game.objects.filter(date=params['date']).order_by('start', )[0::ordering]
-    serializer = GameSerializer(games, many=True)
+
+    answer = list()
+
+    for game in games:
+        answer.append({
+            'address': game.field.address,
+            'field_raiting': game.field.calculate_rate(),
+            'latitude': game.field.latitude,
+            'longitude': game.field.longitude,
+            'players_left': game.players_left(),
+            'photo': game.field.photo.link
+        })
     
-    return serializer.data, 200
+    return answer, 200
 
 
 # FUNCTIONS FOR TESTING
 
 def test(data):
     game = Game.objects.all()[0]
-
-    # return {
-    #     'address': game.field.address,
-    #     'field_raiting': game.field.calculate_rate(),
-    #     'latitude': game.field.latitude,
-    #     'longitude': game.field.longitude,
-    #     'players_left': 0,
-    #     'photo': game.field.photo.link
-    # }
-
-    return TeamSerializer(game.get_players_left(), many=True).data
+    return TeamSerializer(game.players_left(), many=True).data
 
 
 # CREATING FAKE INFORMATION FOR TESTING
