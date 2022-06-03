@@ -156,3 +156,6 @@ REST_FRAMEWORK = {
 
 # Authentication model
 AUTH_USER_MODEL =  'core.User'
+
+# STATIC_ROOT
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
