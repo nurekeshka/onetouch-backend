@@ -4,6 +4,7 @@ from apps.core.models import User
 from django.db import models
 from .constants import TEAM_NAMES
 
+
 class Photo(models.Model):
     link = models.URLField(null=True, blank=True, unique=True, verbose_name='link')
 
