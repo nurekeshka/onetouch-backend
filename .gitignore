@@ -17,3 +17,7 @@ venv.bak/
 *.json
 apps/*/migrations/*.py
 !__init__.py
+
+# Static from django
+static/admin
+static/rest_framework
