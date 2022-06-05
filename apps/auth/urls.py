@@ -6,5 +6,5 @@ urlpatterns = [
     path('verification-sms/', views.verification_sms),
     path('verificate-phone/', views.verificate_phone),
     path('create-user/', views.create_user),
-    path('api-token-auth/', drf_token_views.obtain_auth_token),
+    path('token/', drf_token_views.obtain_auth_token),
 ]
