@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv
+import configparser
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(
@@ -22,6 +22,10 @@ BASE_DIR = os.path.dirname(
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
 
+# Config
+config = configparser.ConfigParser()
+config.read(os.path.join(BASE_DIR, 'settings.ini'))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -31,6 +35,7 @@ SECRET_KEY = 'django-insecure-hixt)#t6jc0t9_zm-v(5wrxhl+q*vxkzuwvkw+38*y(o&h)l0m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+VERSION = 'DEVELOPMENT' if DEBUG else 'PRODUCTION'
 ALLOWED_HOSTS = ["*"]
 
 
@@ -92,8 +97,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config.get(VERSION, 'NAME'),
+        'HOST': config.get(VERSION, 'HOST'),
+        'PORT': config.get(VERSION, 'PORT'),
+        'USER': config.get(VERSION, 'USER'),
+        'PASSWORD': config.get(VERSION, 'PASSWORD')
     }
 }
 
@@ -143,9 +152,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Environ variables
-load_dotenv()
-SMS_API_KEY = os.environ.get('SMS_API_KEY')
-GEOCODER_API_KEY=os.environ.get('GRAPH_HOPPER_API_KEY')
+SMS_API_KEY = config.get('API KEYS', 'MOBIZON')
+GEOCODER_API_KEY = config.get('API KEYS', 'GRAPH_HOPPER')
 
 # REST Framework configuration
 REST_FRAMEWORK = {
