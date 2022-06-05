@@ -89,10 +89,10 @@ def create_fake_fields(count: int):
         photo.save()
 
         field = Field.objects.create(
-            address=fake.address(),
-            photo=photo
+            address=fake.address()
         )
 
+        field.photo.add(photo)
         field.save()
 
 
