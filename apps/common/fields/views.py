@@ -13,5 +13,5 @@ def create_fake_information(request):
 
 @api_view(['GET'])
 def get_latitude_and_longitude(request):
-    response = service.test(request.GET)
+    response = service.get_lat_and_long(request.GET.get('address'))
     return Response(data=response)
