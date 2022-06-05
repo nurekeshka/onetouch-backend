@@ -17,6 +17,7 @@ venv.bak/
 *.json
 apps/*/migrations/*.py
 !__init__.py
+settings.ini
 
 # Static from django
 static/admin
