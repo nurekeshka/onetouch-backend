@@ -6,11 +6,6 @@ from django.dispatch import receiver
 from datetime import date
 
 
-class Verification(models.Model):
-    phone = models.CharField(max_length=15, unique=True, verbose_name='phone number')
-    code = models.CharField(max_length=10, verbose_name='verification')
-
-
 class Telegram(models.Model):
     id = models.IntegerField(primary_key=True, unique=True, null=False, blank=False, verbose_name='id')
     username = models.CharField(max_length=50, null=True, blank=True, verbose_name='username')
