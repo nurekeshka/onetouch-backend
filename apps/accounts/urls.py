@@ -5,5 +5,5 @@ from . import views
 urlpatterns = [
     path('verification/', include('apps.accounts.verification.urls')),
     path('sign-up/', views.create_user),
-    path('sing-in/', drf_token_views.obtain_auth_token),
+    path('sign-in/', drf_token_views.obtain_auth_token),
 ]
