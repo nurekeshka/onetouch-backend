@@ -5,6 +5,6 @@ from django.urls import path
 urlpatterns = [
     path('verification-sms/', views.verification_sms),
     path('verificate-phone/', views.verificate_phone),
-    path('create-user/', views.create_user),
+    path('sign-up/', views.create_user),
     path('token/', drf_token_views.obtain_auth_token),
 ]
