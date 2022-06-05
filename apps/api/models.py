@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from apps.auth.models import User
+from apps.accounts.models import User
 from django.db import models
 from .constants import TEAM_NAMES
 

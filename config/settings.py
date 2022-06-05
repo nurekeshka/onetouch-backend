@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 
     # Project apps
     'apps.api.apps.ApiConfig',
-    'apps.auth.apps.AuthConfig',
+    'apps.accounts.apps.AccountsConfig',
 
     # REST Framework
     'rest_framework',
@@ -163,7 +163,7 @@ REST_FRAMEWORK = {
 }
 
 # Authentication model
-AUTH_USER_MODEL =  'core.User'
+AUTH_USER_MODEL =  'accounts.User'
 
 # STATIC_ROOT
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

@@ -1,7 +1,7 @@
 from .serializers import GameSerializer, FieldSerializer, FeedbackSerializer, TeamSerializer
 from .models import Game, Field, Feedback, Photo
 from django.conf import settings
-from apps.auth.models import User
+from apps.accounts.models import User
 from faker import Faker
 from random import randint
 from requests import get
