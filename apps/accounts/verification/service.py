@@ -1,5 +1,6 @@
 from .serializers import PhoneVerificationSerializer
-from .constants import send_sms_url, confirmed
+from apps.accounts.constants import confirmed
+from .constants import send_sms_url
 from .models import PhoneVerification
 from django.conf import settings
 from random import randint
