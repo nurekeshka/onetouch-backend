@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # Project apps
     'apps.api.apps.ApiConfig',
     'apps.accounts.apps.AccountsConfig',
+    'apps.accounts.verification.VerificationConfig',
     'apps.common.games.apps.GamesConfig',
     'apps.common.fields.apps.FieldsConfig',
 
