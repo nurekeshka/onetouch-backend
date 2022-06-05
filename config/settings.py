@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 
     # Project apps
     'apps.api.apps.ApiConfig',
-    'apps.core.apps.CoreConfig',
+    'apps.auth.apps.AuthConfig',
 
     # REST Framework
     'rest_framework',
