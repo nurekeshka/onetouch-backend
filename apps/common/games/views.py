@@ -7,7 +7,7 @@ from . import service
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_all(request):
-    body, status = service.games_for_one_day(
+    body, status = service.get_all_for_day(
         date=request.GET.get('date'),
         ordering=request.GET.get('ordering')
     )
