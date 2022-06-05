@@ -1,40 +1,9 @@
-from .serializers import GameSerializer, FieldSerializer, FeedbackSerializer, TeamSerializer
-from .models import Game, Field, Feedback, Photo
+from apps.common.fields.models import Field, Feedback, Photo
 from django.conf import settings
 from apps.accounts.models import User
 from faker import Faker
 from random import randint
-from requests import get
-
-
-# GETTING GAME FOR APPLICATION FEED
-# recieves: date, ordering
-
-def games_for_one_day(params):
-    ordering = 1 if int(params.get('ordering')) else -1
-    
-    games = Game.objects.filter(date=params['date']).order_by('start', )[0::ordering]
-
-    answer = list()
-
-    for game in games:
-        answer.append({
-            'address': game.field.address,
-            'field_raiting': game.field.calculate_rate(),
-            'latitude': game.field.latitude,
-            'longitude': game.field.longitude,
-            'players_left': game.players_left(),
-            'photo': game.field.photo.link
-        })
-    
-    return answer, 200
-
-
-def game_detailed(params):
-    if params.get('id'):
-        return {'id': 'id is not given'}, 400
-    
-    
+from requests import get    
 
 
 # FUNCTIONS FOR TESTING
