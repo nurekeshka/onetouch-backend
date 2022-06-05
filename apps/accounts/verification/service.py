@@ -47,7 +47,8 @@ def verify(payload: dict) -> tuple:
         return {'phone': ['Already verified']}, 400
 
     elif verification.code == payload.get('code'):
-        verification.update(code=confirmed)
+        verification.code = confirmed
+        verification.save()
         return {'phone': ['Successfully verified']}, 200
 
     else:
