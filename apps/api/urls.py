@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('auth/', include('apps.accounts.urls')),
-    path('games/', views.get_all_games),
+    path('games/', include('apps.common.games.urls')),
     path('test/', views.test),
     path('fake-information/', views.create_fake_info),
 ]
