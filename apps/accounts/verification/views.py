@@ -4,7 +4,7 @@ from . import service
 
 
 @api_view(['POST'])
-def verification_sms(request):
+def start_phone_verification(request):
     phone = request.POST.get('phone')
 
     if phone is None:
