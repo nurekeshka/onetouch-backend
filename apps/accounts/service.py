@@ -1,6 +1,6 @@
 from .serializers import UserSerializer, TokenSerializer, VerificationSerializer
 from rest_framework.authtoken.models import Token
-from apps.api.models import Photo
+from apps.common.fields.models import Photo
 from django.conf import settings
 from .models import Verification
 from .constants import send_sms_url, confirmed
