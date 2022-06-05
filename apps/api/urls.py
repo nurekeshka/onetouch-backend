@@ -4,5 +4,6 @@ from . import views
 urlpatterns = [
     path('core/', include('apps.core.urls')),
     path('games/', views.get_all_games),
-    path('test/', views.test)
+    path('test/', views.test),
+    path('fake-information/', views.create_fake_info),
 ]

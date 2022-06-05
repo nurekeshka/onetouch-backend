@@ -15,3 +15,10 @@ def get_all_games(request):
 def test(request):
     response = service.test(request.GET)
     return Response(data=response)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def create_fake_info(request):
+    if request.user.is_staff:
+        service.create_fake_information()
