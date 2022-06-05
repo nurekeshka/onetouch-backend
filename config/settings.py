@@ -33,7 +33,7 @@ config.read(os.path.join(BASE_DIR, 'settings.ini'))
 SECRET_KEY = 'django-insecure-hixt)#t6jc0t9_zm-v(5wrxhl+q*vxkzuwvkw+38*y(o&h)l0m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(config.get('SETTINGS', 'DEVELOPMENT'))
 
 VERSION = 'DEVELOPMENT' if DEBUG else 'PRODUCTION'
 ALLOWED_HOSTS = ["*"]
