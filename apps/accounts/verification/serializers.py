@@ -4,7 +4,7 @@ from .models import PhoneVerification
 import phonenumbers as pns
 
 
-class VerificationSerializer(serializers.ModelSerializer):
+class PhoneVerificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhoneVerification
         fields = ('phone', 'code')
