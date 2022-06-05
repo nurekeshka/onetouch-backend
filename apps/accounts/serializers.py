@@ -1,8 +1,8 @@
 from rest_framework.authtoken.models import Token
 from .verification.models import PhoneVerification
-from .models import User
 from rest_framework import serializers
 from .constants import confirmed
+from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):

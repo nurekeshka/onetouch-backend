@@ -1,6 +1,6 @@
-from django.contrib import admin
-from .models import User, Telegram
 from .verification.models import PhoneVerification
+from .models import User, Telegram
+from django.contrib import admin
 
 
 @admin.register(User)
@@ -20,6 +20,6 @@ class PhoneVerificationAdmin(admin.ModelAdmin):
     fields = list_display
 
 @admin.register(Telegram)
-class Telegram(admin.ModelAdmin):
+class TelegramAdmin(admin.ModelAdmin):
     list_display = ('id', 'first_name', 'last_name', 'age')
     fields = list_display
