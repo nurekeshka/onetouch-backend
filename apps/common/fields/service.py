@@ -29,6 +29,8 @@ def create_fake_information():
     for field in Field.objects.all():
         _create_fake_feedback(10, field)
 
+    return {'success': True}
+
 
 def _create_fake_users(count: int):
     fake = Faker()
