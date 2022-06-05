@@ -11,6 +11,14 @@ class Verification(models.Model):
     code = models.CharField(max_length=10, verbose_name='verification')
 
 
+class Telegram(models.Model):
+    id = models.IntegerField(primary_key=True, unique=True, null=False, blank=False, verbose_name='id')
+    username = models.CharField(max_length=50, null=True, blank=True, verbose_name='username')
+    first_name = models.CharField(max_length=124, null=True, blank=True, verbose_name='first name')
+    last_name = models.CharField(max_length=124, null=True, blank=True, verbose_name='last name')
+    age = models.IntegerField(null=True, blank=True, verbose_name='age')
+
+
 class User(AbstractUser):
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ('username',)
@@ -20,6 +28,8 @@ class User(AbstractUser):
     photo = models.URLField(null=True, blank=True, verbose_name='photo link')
     birth_date = models.DateField(null=True, blank=True, verbose_name='birth date')
     email = models.EmailField(null=True, blank=True, verbose_name='email')
+
+    telegram = models.ForeignKey(Telegram, on_delete=models.CASCADE, null=True, blank=True, verbose_name='telegram')
 
     class Meta:
         verbose_name = 'user'
@@ -42,11 +52,3 @@ def create_user_token(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_token(sender, instance, **kwargs):
     Token.objects.get(user=instance).save()
-
-
-class Telegram(models.Model):
-    id = models.IntegerField(primary_key=True, unique=True, null=False, blank=False, verbose_name='id')
-    username = models.CharField(max_length=50, null=True, blank=True, verbose_name='username')
-    first_name = models.CharField(max_length=124, null=True, blank=True, verbose_name='first name')
-    last_name = models.CharField(max_length=124, null=True, blank=True, verbose_name='last name')
-    age = models.IntegerField(null=True, blank=True, verbose_name='age')
