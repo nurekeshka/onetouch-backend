@@ -1,9 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from . import service
+from . import utils
 
 
 @api_view(['POST'])
 def create_user(request):
-    body, status = service.create_verified_user(request.POST)
+    body, status = utils.create_verified_user(request.POST)
     return Response(data=body, status=status)
