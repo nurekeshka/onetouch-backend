@@ -1,21 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
+from apps.telegram.models import Telegram
 from django.dispatch import receiver
 from django.db import models
 from datetime import date
-
-
-class Telegram(models.Model):
-    id = models.IntegerField(primary_key=True, unique=True, null=False, blank=False, verbose_name='id')
-    username = models.CharField(max_length=50, null=True, blank=True, verbose_name='username')
-    first_name = models.CharField(max_length=124, null=True, blank=True, verbose_name='first name')
-    last_name = models.CharField(max_length=124, null=True, blank=True, verbose_name='last name')
-    age = models.IntegerField(null=True, blank=True, verbose_name='age')
-
-    class Meta:
-        verbose_name = 'телеграм'
-        verbose_name_plural = 'телеграм'
 
 
 class User(AbstractUser):
