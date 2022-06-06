@@ -12,8 +12,8 @@ class Team(models.Model):
     game = models.ForeignKey('Game', on_delete=models.CASCADE, verbose_name='game')
 
     class Meta:
-        verbose_name = 'team'
-        verbose_name_plural = 'teams'
+        verbose_name = 'команда'
+        verbose_name_plural = 'команды'
         ordering = ('game',)
     
     def __str__(self):
@@ -28,8 +28,8 @@ class Game(models.Model):
     end = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='end')
 
     class Meta:
-        verbose_name = 'game'
-        verbose_name_plural = 'games'
+        verbose_name = 'игра'
+        verbose_name_plural = 'игры'
         ordering = ('date', 'field')
     
     def __str__(self):

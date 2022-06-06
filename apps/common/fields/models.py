@@ -6,8 +6,8 @@ class Photo(models.Model):
     link = models.URLField(null=True, blank=True, unique=True, verbose_name='link')
 
     class Meta:
-        verbose_name = 'photo'
-        verbose_name_plural = 'photos'
+        verbose_name = 'фото'
+        verbose_name_plural = 'фото'
         ordering = ('link',)
 
     def __str__(self):
@@ -21,8 +21,8 @@ class Feedback(models.Model):
     field = models.ForeignKey('Field', on_delete=models.PROTECT, verbose_name='field')
 
     class Meta:
-        verbose_name = 'feedback'
-        verbose_name_plural = 'feedbacks'
+        verbose_name = 'отзыв'
+        verbose_name_plural = 'отзывы'
         ordering = ('field', 'user')
 
     def __str__(self):
@@ -38,8 +38,8 @@ class Field(models.Model):
     facilities = models.ManyToManyField('Facility', verbose_name='facilities')
 
     class Meta:
-        verbose_name = 'field'
-        verbose_name_plural = 'fields'
+        verbose_name = 'поле'
+        verbose_name_plural = 'поля'
         ordering = ('address',)
     
     def __str__(self):
@@ -62,8 +62,8 @@ class Facility(models.Model):
     icons_link = models.URLField(verbose_name='icons link')
 
     class Meta:
-        verbose_name = 'facility'
-        verbose_name_plural = 'facilities'
+        verbose_name = 'удобство'
+        verbose_name_plural = 'удобства'
         ordering = ('name',)
 
     def __str__(self):

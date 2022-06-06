@@ -13,6 +13,10 @@ class Telegram(models.Model):
     last_name = models.CharField(max_length=124, null=True, blank=True, verbose_name='last name')
     age = models.IntegerField(null=True, blank=True, verbose_name='age')
 
+    class Meta:
+        verbose_name = 'телеграм'
+        verbose_name_plural = 'телеграм'
+
 
 class User(AbstractUser):
     USERNAME_FIELD = 'phone'
@@ -27,8 +31,8 @@ class User(AbstractUser):
     telegram = models.ForeignKey(Telegram, on_delete=models.CASCADE, null=True, blank=True, verbose_name='telegram')
 
     class Meta:
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
+        verbose_name = 'пользователь'
+        verbose_name_plural = 'пользователи'
         ordering = ('phone',)
     
     def __str__(self):
