@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'apps.accounts.verification.apps.VerificationConfig',
     'apps.common.games.apps.GamesConfig',
     'apps.common.fields.apps.FieldsConfig',
+    'apps.telegram.apps.TelegramConfig',
 
     # REST Framework
     'rest_framework',
