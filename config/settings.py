@@ -158,6 +158,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Environ variables
 SMS_API_KEY = config.get('API KEYS', 'MOBIZON')
 GEOCODER_API_KEY = config.get('API KEYS', 'GRAPH_HOPPER')
+TELEGRAM_BOT_API_KEY = config.get('API KEYS', 'AIRSOFT_BOT')
 
 # REST Framework configuration
 REST_FRAMEWORK = {
