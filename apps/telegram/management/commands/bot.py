@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from ... import constants as text
 from django.conf import settings
 import telebot
 
@@ -6,10 +7,9 @@ import telebot
 bot = telebot.TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
 
 
-@bot.message_handler(content_types=['text'])
+@bot.message_handler(['start'])
 def echo(message):
-    print(message.from_user)
-    bot.send_message(message.chat.id, message.text)
+    bot.send_message(message.chat.id, text.START_MESSAGE)
 
 
 class Command(BaseCommand):
