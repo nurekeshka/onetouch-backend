@@ -22,6 +22,24 @@ def start(message):
     bot.send_message(message.chat.id, text.START_MESSAGE)
 
 
+@bot.message_handler(['test'])
+def test(message):
+    # markup = telebot.types.InlineKeyboardMarkup()
+    # markup.add(telebot.types.InlineKeyboardButton(text='Testing', url='https://youtube.com/'))
+
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    website = telebot.types.KeyboardButton('Hello World!')
+    start = telebot.types.KeyboardButton('Start')
+
+    markup.add(website, start)
+
+    bot.send_message(
+        chat_id=message.chat.id,
+        text='Testing',
+        reply_markup=markup
+    )
+
+
 class Command(BaseCommand):
     help = 'Telegram bot setup command '
 
