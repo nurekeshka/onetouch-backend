@@ -14,3 +14,7 @@ class TeamAdmin(admin.ModelAdmin):
     fields = ('name', 'players', 'game')
     order_by = ('name')
 
+@admin.register(models.Player)
+class PlayerAdmin(admin.ModelAdmin):
+    list_display = ('user', 'telegram', 'position')
+    fields = ('user', 'telegram', 'position')
