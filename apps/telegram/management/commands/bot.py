@@ -1,16 +1,20 @@
 from django.core.management.base import BaseCommand
-from ... import constants as text
-from ... import models
+from telebot.types import ReplyKeyboardMarkup
+from telebot.types import KeyboardButton
+from telebot.types import InlineKeyboardMarkup
+from telebot.types import InlineKeyboardButton
+from telebot import TeleBot
 from django.conf import settings
-import telebot
+from ... import constants as const
+from ... import models
 
 
-bot = telebot.TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
+bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
 
 
 @bot.message_handler(['start'])
 def start(message):
-    models.Telegram.objects.get_or_create(
+    user, created  = models.Telegram.objects.get_or_create(
         id=message.from_user.id,
         defaults={
             'username': message.from_user.username,
@@ -19,24 +23,31 @@ def start(message):
         }
     )
 
-    bot.send_message(message.chat.id, text.START_MESSAGE)
+    markup = InlineKeyboardMarkup()
+
+    # if created:
+    fill_profile = InlineKeyboardButton(
+        text=const.ButtonTexts.profile,
+        callback_data=const.Commands.profile
+    )
+    markup.add(fill_profile)
+    # else:
+    #     pass
+
+    bot.send_message(
+        chat_id=message.chat.id, 
+        text=const.Messages.start,
+        reply_markup=markup,
+        parse_mode='html'
+    )
 
 
 @bot.message_handler(['test'])
 def test(message):
-    # markup = telebot.types.InlineKeyboardMarkup()
-    # markup.add(telebot.types.InlineKeyboardButton(text='Testing', url='https://youtube.com/'))
-
-    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    website = telebot.types.KeyboardButton('Hello World!')
-    start = telebot.types.KeyboardButton('Start')
-
-    markup.add(website, start)
-
     bot.send_message(
         chat_id=message.chat.id,
-        text='Testing',
-        reply_markup=markup
+        text=const.Messages.test,
+        parse_mode='html'
     )
 
 
@@ -45,4 +56,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         print('Telegram bot started')
-        bot.infinity_polling()
+        # bot.infinity_polling()
+        bot.polling(none_stop=False, interval=0)
