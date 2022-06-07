@@ -12,7 +12,7 @@ from ... import models
 bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
 
 
-@bot.message_handler(['start'])
+@bot.message_handler([const.Commands.start])
 def start(message):
     user, created  = models.Telegram.objects.get_or_create(
         id=message.from_user.id,
@@ -42,12 +42,27 @@ def start(message):
     )
 
 
-@bot.message_handler(['test'])
+@bot.callback_query_handler(func=lambda call: True)
+def query_callback(call):
+    match call.data:
+        case const.Callbacks.profile:
+            profile()
+
+
+@bot.message_handler([const.Commands.test])
 def test(message):
     bot.send_message(
         chat_id=message.chat.id,
         text=const.Messages.test,
         parse_mode='html'
+    )
+
+
+@bot.message_handler([const.Commands.profile])
+def profile(message):
+    bot.send_message(
+        chat_id=message.chat.id,
+        text='Profile'
     )
 
 
