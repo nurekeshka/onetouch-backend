@@ -16,6 +16,10 @@ class ButtonTexts:
     profile = 'Заполнить профиль'
 
 
+class Callbacks:
+    profile = 'profile'
+
+
 class Emoji:
     football = '⚽'
     heart = '❤️'
