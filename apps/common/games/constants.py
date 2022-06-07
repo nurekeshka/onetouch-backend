@@ -3,3 +3,9 @@ TEAM_NAMES = (
     'Синие',
     'Зеленые'
 )
+
+PLAYER_POSITIONS = (
+    ('GK', 'Goalkeeper'),
+    ('DF', 'Defender'),
+    ('ST', 'Striker'),
+)
