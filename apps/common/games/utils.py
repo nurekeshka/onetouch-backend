@@ -5,7 +5,7 @@ from .models import Game, Team
 # GETTING GAME FOR APPLICATION FEED
 # recieves: date, ordering
 
-def get_all_for_day(date, ordering):
+def get_all_for_day(date: str, ordering: str):
     games = Game.objects.filter(date=date).order_by('start', )[0 : : 1 if int(ordering) else -1]
 
     answer = list()
