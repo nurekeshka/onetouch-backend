@@ -13,3 +13,6 @@ class Telegram(models.Model):
     class Meta:
         verbose_name = 'телеграм'
         verbose_name_plural = 'телеграм'
+
+    def is_active(self):
+        return bool(self.age and self.phone)
