@@ -30,17 +30,17 @@ def telegram_user(function):
 @bot.message_handler(commands=[const.Commands.start])
 @telegram_user
 def start(message, user):
-    markup = InlineKeyboardMarkup()
+    inline = InlineKeyboardMarkup()
 
     if not user.is_active():
-        markup.add(
+        inline.add(
             InlineKeyboardButton(
                 text=const.ButtonTexts.update,
                 callback_data=const.Commands.update
             )
         )
     else:
-        markup.add(
+        inline.add(
             InlineKeyboardButton(
                 text=const.ButtonTexts.profile,
                 callback_data=const.Commands.profile
@@ -54,7 +54,7 @@ def start(message, user):
     bot.send_message(
         chat_id=message.chat.id, 
         text=const.Messages.start,
-        reply_markup=markup,
+        reply_markup=inline,
         parse_mode='html'
     )
 
@@ -64,7 +64,7 @@ def start(message, user):
 def query_callback(call: telebot.types.CallbackQuery, user: Telegram):
     match call.data:
         case const.Commands.update:
-
+            
             bot.send_message(
                 chat_id=call.message.chat.id,
                 text='Введите свой возраст'
@@ -72,7 +72,8 @@ def query_callback(call: telebot.types.CallbackQuery, user: Telegram):
 
 
 @bot.message_handler(content_types=['text'])
-def on_text(message):
+@telegram_user
+def on_text(message: telebot.types.Message, user: Telegram):
     pass
 
 
