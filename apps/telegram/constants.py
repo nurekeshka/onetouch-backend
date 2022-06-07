@@ -1,0 +1,1 @@
+START_MESSAGE = 'Start message'
