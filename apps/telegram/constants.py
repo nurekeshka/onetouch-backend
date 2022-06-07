@@ -3,6 +3,7 @@
 class Commands:
     start = 'start'
     profile = 'profile'
+    test = 'test'
 
 
 class Messages:
@@ -11,6 +12,7 @@ class Messages:
 
 
 class ButtonTexts:
+    test = 'Test Text'
     profile = 'Заполнить профиль'
 
 
