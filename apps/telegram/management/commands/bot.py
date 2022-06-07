@@ -7,31 +7,32 @@ from telebot import TeleBot
 from django.conf import settings
 from ... import constants as const
 from ...models import Telegram
+import telebot
 
 
 bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
 
 
 def telegram_user(function):
-    def inner(message):
+    def inner(payload: telebot.types.Message):
         user, created  = Telegram.objects.get_or_create(
-            id=message.from_user.id,
+            id=payload.from_user.id,
             defaults={
-                'username': message.from_user.username,
-                'first_name': message.from_user.first_name,
-                'last_name': message.from_user.last_name
+                'username': payload.from_user.username,
+                'first_name': payload.from_user.first_name,
+                'last_name': payload.from_user.last_name
             }
         )
-        function(message, user, created)
+        function(payload, user)
     return inner
 
 
-@bot.message_handler([const.Commands.start])
+@bot.message_handler(commands=[const.Commands.start])
 @telegram_user
-def start(message, user, created):
+def start(message, user):
     markup = InlineKeyboardMarkup()
 
-    if created or not user.is_active():
+    if not user.is_active():
         markup.add(
             InlineKeyboardButton(
                 text=const.ButtonTexts.update,
@@ -59,10 +60,10 @@ def start(message, user, created):
 
 
 @bot.callback_query_handler(func=lambda call: True)
-def query_callback(call):
+@telegram_user
+def query_callback(call: telebot.types.CallbackQuery, user: Telegram):
     match call.data:
         case const.Commands.update:
-            user = Telegram.objects.get_or_create
 
             bot.send_message(
                 chat_id=call.message.chat.id,
@@ -70,13 +71,10 @@ def query_callback(call):
             )
 
 
-# @bot.message_handler([const.Commands.test])
-# def test(message):
-#     bot.send_message(
-#         chat_id=message.chat.id,
-#         text=const.Messages.test,
-#         parse_mode='html'
-#     )
+@bot.message_handler(content_types=['text'])
+def on_text(message):
+    pass
+
 
 
 class Command(BaseCommand):
