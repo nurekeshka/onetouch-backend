@@ -1,9 +1,24 @@
 from django.db.models.signals import post_save
 from apps.common.fields.models import Field
+from apps.telegram.models import Telegram
+from .constants import PLAYER_POSITIONS
 from apps.accounts.models import User
 from django.dispatch import receiver
 from .constants import TEAM_NAMES
 from django.db import models
+
+
+class Player(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, verbose_name='user')
+    telegram = models.ForeignKey(Telegram, on_delete=models.CASCADE, null=True, blank=True, verbose_name='telegram')
+    position = models.CharField(max_length=2, choices=PLAYER_POSITIONS, default='PL')
+
+    class Meta:
+        verbose_name = 'игрок'
+        verbose_name_plural = 'игроки'
+    
+    def __str__(self):
+        return self.position
 
 
 class Team(models.Model):
