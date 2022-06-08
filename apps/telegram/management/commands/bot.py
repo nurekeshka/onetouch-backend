@@ -13,7 +13,6 @@ import telebot
 
 bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
 
-
 @bot.message_handler(commands=[const.Commands.start])
 @telegram_user
 def start(message, user):
@@ -73,9 +72,33 @@ def query_callback(call: telebot.types.CallbackQuery, user: Telegram):
 @telegram_user
 def update_info(message: telebot.types.Message, user: Telegram):
     if message.text == 'Возраст':
-        print('Возраст')
+        msg = bot.send_message(
+            chat_id=message.chat.id,
+            text='Введите возраст'
+        )
+
+        bot.register_next_step_handler(
+            message=msg,
+            callback=enter_age
+        )
     elif message.text == 'Номер телефона':
         print('Телефон')
+
+
+@telegram_user
+def enter_age(message: telebot.types.Message, user: Telegram):
+    if message.text.isdigit():
+        user.age = int(message.text)
+        user.save()
+        bot.send_message(
+            chat_id=message.chat.id,
+            text='Сохранено!'
+        )
+    else:
+        bot.send_message(
+            chat_id=message.chat.id,
+            text='Введите целое число'
+        )
 
 
 class Command(BaseCommand):
