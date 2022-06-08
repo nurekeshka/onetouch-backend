@@ -7,24 +7,11 @@ from telebot import TeleBot
 from django.conf import settings
 from ... import constants as const
 from ...models import Telegram
+from ...utils import telegram_user
 import telebot
 
 
 bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
-
-
-def telegram_user(function):
-    def inner(payload: telebot.types.Message):
-        user, created  = Telegram.objects.get_or_create(
-            id=payload.from_user.id,
-            defaults={
-                'username': payload.from_user.username,
-                'first_name': payload.from_user.first_name,
-                'last_name': payload.from_user.last_name
-            }
-        )
-        function(payload, user)
-    return inner
 
 
 @bot.message_handler(commands=[const.Commands.start])
@@ -64,18 +51,30 @@ def start(message, user):
 def query_callback(call: telebot.types.CallbackQuery, user: Telegram):
     match call.data:
         case const.Commands.update:
-            
-            bot.send_message(
+            keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+            keyboard.add(
+                KeyboardButton(text='Возраст'),
+                KeyboardButton(text='Номер телефона')
+            )
+
+            msg = bot.send_message(
                 chat_id=call.message.chat.id,
-                text='Введите свой возраст'
+                text='Введите информацию',
+                reply_markup=keyboard
+            )
+
+            bot.register_next_step_handler(
+                message=msg,
+                callback=update_info
             )
 
 
-@bot.message_handler(content_types=['text'])
 @telegram_user
-def on_text(message: telebot.types.Message, user: Telegram):
-    pass
-
+def update_info(message: telebot.types.Message, user: Telegram):
+    if message.text == 'Возраст':
+        print('Возраст')
+    elif message.text == 'Номер телефона':
+        print('Телефон')
 
 
 class Command(BaseCommand):
