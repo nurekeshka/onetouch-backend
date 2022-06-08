@@ -1,3 +1,4 @@
+from apps.accounts.verification.serializers import PhoneVerificationSerializer
 from django.core.management.base import BaseCommand
 from telebot.types import ReplyKeyboardMarkup
 from telebot.types import KeyboardButton
@@ -82,7 +83,15 @@ def update_info(message: telebot.types.Message, user: Telegram):
             callback=enter_age
         )
     elif message.text == 'Номер телефона':
-        print('Телефон')
+        msg = bot.send_message(
+            chat_id=message.chat.id,
+            text='Введите номер телефона'
+        )
+
+        bot.register_next_step_handler(
+            message=msg,
+            callback=enter_phone_number
+        )
 
 
 @telegram_user
@@ -98,6 +107,23 @@ def enter_age(message: telebot.types.Message, user: Telegram):
         bot.send_message(
             chat_id=message.chat.id,
             text='Введите целое число'
+        )
+
+
+@telegram_user
+def enter_phone_number(message: telebot.types.Message, user: Telegram):
+    if PhoneVerificationSerializer().validate_phone(message.text):
+        user.phone = message.text
+        user.save()
+
+        bot.send_message(
+            chat_id=message.chat.id,
+            text='Сохранено'
+        )
+    else:
+        bot.send_message(
+            chat_id=message.chat.id,
+            text='Не корректный номер телефона'
         )
 
 
