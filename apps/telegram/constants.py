@@ -27,12 +27,12 @@ class Profile:
 
     def message(self, user: Telegram):
         text = 'Ваш профиль:\n'
-        text += f'username: {user.username}\n'
-        text += f'first_name: {user.first_name}\n'
-        text += f'last_name: {user.last_name}\n'
-        text += f'age: {user.age}\n'
-        text += f'phone: {user.phone}\n'
-
+        
+        for key, value in user.info.items():
+            if value is None:
+                value = Emoji.stop
+            text += f'{key}: {value}\n'
+            
         return text
 
 
