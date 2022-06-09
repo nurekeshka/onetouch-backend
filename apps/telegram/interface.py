@@ -76,13 +76,13 @@ class Games:
     )
 
     def message():
-        text = Emoji.football.value + _bold(' Все игры на сегодня ') + Emoji.football.value + '\n\n'
+        text = Emoji.football.value + _bold(' Все игры на ближайшее время ') + Emoji.football.value + '\n\n'
         return text
     
     def markup():
         inline = types.InlineKeyboardMarkup(
             keyboard=None,
-            row_width=2
+            row_width=1
         )
 
         games = list()
