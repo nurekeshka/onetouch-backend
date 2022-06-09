@@ -75,8 +75,9 @@ class Games:
         callback_data=name
     )
 
-    def message(user: Telegram):
+    def message():
         text = Emoji.football.value + _bold(' Все игры на сегодня ') + Emoji.football.value + '\n\n'
+        return text
 
 
 class Back:
