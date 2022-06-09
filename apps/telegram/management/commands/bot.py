@@ -37,6 +37,7 @@ def games(message: types.Message):
     bot.send_message(
         chat_id=message.chat.id,
         text=Games.message(),
+        reply_markup=Games.markup(),
         parse_mode='html'
     )
 
