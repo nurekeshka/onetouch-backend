@@ -1,15 +1,11 @@
 from apps.accounts.verification.serializers import PhoneVerificationSerializer
 from django.core.management.base import BaseCommand
-from telebot.types import ReplyKeyboardMarkup
-from telebot.types import KeyboardButton
-from telebot.types import InlineKeyboardMarkup
-from telebot.types import InlineKeyboardButton
+from telebot import types
 from telebot import TeleBot
 from django.conf import settings
 from ... import constants as const
 from ...models import Telegram
 from ...utils import telegram_user
-import telebot
 
 
 bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
@@ -17,22 +13,22 @@ bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
 @bot.message_handler(commands=[const.Commands.start])
 @telegram_user
 def start(message, user):
-    inline = InlineKeyboardMarkup()
+    inline = types.InlineKeyboardMarkup()
 
     if not user.is_active():
         inline.add(
-            InlineKeyboardButton(
+            types.InlineKeyboardButton(
                 text=const.ButtonTexts.update,
                 callback_data=const.Commands.update
             )
         )
     else:
         inline.add(
-            InlineKeyboardButton(
+            types.InlineKeyboardButton(
                 text=const.ButtonTexts.profile,
                 callback_data=const.Commands.profile
             ),
-            InlineKeyboardButton(
+            types.InlineKeyboardButton(
                 text=const.ButtonTexts.games,
                 callback_data=const.Commands.games
             )
@@ -48,14 +44,14 @@ def start(message, user):
 
 @bot.callback_query_handler(func=lambda call: True)
 @telegram_user
-def query_callback(call: telebot.types.CallbackQuery, user: Telegram):
+def query_callback(call: types.CallbackQuery, user: Telegram):
     match call.data:
         case const.Commands.update:
-            keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1, one_time_keyboard=True)
+            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1, one_time_keyboard=True)
 
             keyboard.add(
-                KeyboardButton(text='Возраст'),
-                KeyboardButton(text='Номер телефона')
+                types.KeyboardButton(text='Возраст'),
+                types.KeyboardButton(text='Номер телефона')
             )
 
             msg = bot.send_message(
@@ -71,7 +67,7 @@ def query_callback(call: telebot.types.CallbackQuery, user: Telegram):
 
 
 @telegram_user
-def update_info(message: telebot.types.Message, user: Telegram):
+def update_info(message: types.Message, user: Telegram):
     if message.text == 'Возраст':
         msg = bot.send_message(
             chat_id=message.chat.id,
@@ -95,7 +91,7 @@ def update_info(message: telebot.types.Message, user: Telegram):
 
 
 @telegram_user
-def enter_age(message: telebot.types.Message, user: Telegram):
+def enter_age(message: types.Message, user: Telegram):
     if message.text.isdigit():
         user.age = int(message.text)
         user.save()
@@ -111,7 +107,7 @@ def enter_age(message: telebot.types.Message, user: Telegram):
 
 
 @telegram_user
-def enter_phone_number(message: telebot.types.Message, user: Telegram):
+def enter_phone_number(message: types.Message, user: Telegram):
     if PhoneVerificationSerializer().validate_phone(message.text):
         user.phone = message.text
         user.save()
