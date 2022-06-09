@@ -18,7 +18,6 @@ class Telegram(models.Model):
     
     def info(self) -> dict:
         return {
-            'Имя пользователя': self.username, 
             'Имя': self.first_name,
             'Фамилия': self.last_name,
             'Возраст': self.age,
