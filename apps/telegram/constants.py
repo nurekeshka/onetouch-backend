@@ -1,4 +1,18 @@
+from .models import Telegram
 from telebot import types
+
+
+class Emoji:
+    football = '⚽'
+    heart = '❤️'
+    explosion = '💥'
+    bomb = '💣'
+    rocket = '🚀'
+    fire = '🔥'
+    commet = '☄️'
+    lightning = '⚡'
+    danger = '⚠️'
+    stop = '🚫'
 
 
 class Start:
@@ -9,8 +23,18 @@ class Start:
 class Profile:
     name = 'profile'
     command = '/profile'
-    message = 'Вот ваш профиль:'
     button_text = 'Профиль'
+
+    def message(self, user: Telegram):
+        text = 'Ваш профиль:\n'
+        text += f'username: {user.username}\n'
+        text += f'first_name: {user.first_name}\n'
+        text += f'last_name: {user.last_name}\n'
+        text += f'age: {user.age}\n'
+        text += f'phone: {user.phone}\n'
+
+        return text
+
 
     button = types.InlineKeyboardButton(
         text=button_text,
@@ -51,15 +75,3 @@ class Edit:
 #     edit = 'Заполнить профиль'
 #     profile = 'Профиль'
 #     games = 'Игры'
-
-
-class Emoji:
-    football = '⚽'
-    heart = '❤️'
-    explosion = '💥'
-    bomb = '💣'
-    rocket = '🚀'
-    fire = '🔥'
-    commet = '☄️'
-    lightning = '⚡'
-    danger = '⚠️'
