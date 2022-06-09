@@ -24,16 +24,22 @@ class Profile:
     name = 'profile'
     command = '/profile'
     button_text = 'Профиль'
+    message = 'Ваш профиль'
 
-    def message(user: Telegram):
-        text = 'Ваш профиль:\n'
+    def markup(user: Telegram):
+        inline = types.InlineKeyboardMarkup()
         
         for key, value in user.info().items():
             if value is None:
                 value = Emoji.stop
-            text += f'{key}: {value}\n'
+            inline.add(
+                types.InlineKeyboardButton(
+                    text=f'{key}: {value}',
+                    callback_data=key
+                )
+            )
             
-        return text
+        return inline
 
 
     button = types.InlineKeyboardButton(
