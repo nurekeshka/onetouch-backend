@@ -15,8 +15,10 @@ bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
 def start(message: types.Message, user: Telegram):
     inline = types.InlineKeyboardMarkup()
 
-    if not user.is_active():
+    if user.is_active():
         inline.add( Profile.button )
+    else:
+        inline.add()
     
     bot.send_message(
         chat_id=message.chat.id, 
