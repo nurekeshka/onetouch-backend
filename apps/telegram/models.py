@@ -16,5 +16,11 @@ class Telegram(models.Model):
     def is_active(self):
         return bool(self.age and self.phone)
     
-    def fields(self):
-        return ('username', 'first_name', 'last_name', 'age', 'phone')
+    def info(self):
+        return {
+            'username': self.username, 
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'age': self.age,
+            'phone': self.phone
+        }
