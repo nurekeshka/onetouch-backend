@@ -12,7 +12,7 @@ bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
 
 @bot.message_handler(commands=[const.Commands.start])
 @telegram_user
-def start(message, user):
+def start(message: types.Message, user: Telegram):
     inline = types.InlineKeyboardMarkup()
 
     if not user.is_active():
