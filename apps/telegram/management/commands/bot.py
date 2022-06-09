@@ -39,7 +39,7 @@ def games(message: types.Message):
         text=Games.message(),
         parse_mode='html'
     )
-    
+
 
 @bot.callback_query_handler(func=lambda call: True)
 @telegram_user
@@ -71,6 +71,12 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                 reply_markup=Profile.markup(user)
             )
 
+        case _:
+            bot.send_message(
+                chat_id=call.message.chat.id,
+                text=call.data,
+                parse_mode='html'
+            )
 
 class Command(BaseCommand):
     help = 'Telegram bot setup command '
