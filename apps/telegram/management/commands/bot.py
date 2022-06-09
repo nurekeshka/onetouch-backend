@@ -32,6 +32,15 @@ def profile(message: types.Message, user: Telegram):
     )
 
 
+@bot.message_handler(commands=[Games.name])
+def games(message: types.Message):
+    bot.send_message(
+        chat_id=message.chat.id,
+        text=Games.message(),
+        parse_mode='html'
+    )
+    
+
 @bot.callback_query_handler(func=lambda call: True)
 @telegram_user
 def callback_handler(call: types.CallbackQuery, user: Telegram):
