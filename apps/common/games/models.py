@@ -61,7 +61,7 @@ class Game(models.Model):
         return available_places
     
     def active(self) -> bool:
-        return (self.date - date.today()).days < 0
+        return (self.date - date.today()).days > 0
 
 
 @receiver(post_save, sender=Game)
