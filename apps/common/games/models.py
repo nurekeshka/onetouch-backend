@@ -6,6 +6,7 @@ from apps.accounts.models import User
 from django.dispatch import receiver
 from .constants import TEAM_NAMES
 from django.db import models
+from datetime import date
 
 
 class Player(models.Model):
@@ -58,6 +59,10 @@ class Game(models.Model):
             available_places -= team.players.count()
 
         return available_places
+    
+    def active(self) -> bool:
+        return (self.date - date.today()).days < 0
+
 
 @receiver(post_save, sender=Game)
 def create_teams(sender, instance, created, **kwargs):
