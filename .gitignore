@@ -22,3 +22,4 @@ settings.ini
 # Static from django
 static/admin
 static/rest_framework
+.handler-saves
