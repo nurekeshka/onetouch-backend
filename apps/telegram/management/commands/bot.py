@@ -129,6 +129,5 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         bot.enable_save_next_step_handlers(delay=2)
         bot.load_next_step_handlers()
-        print('Telegram BOT has been started')
         # bot.infinity_polling()
         bot.polling(none_stop=False, interval=0)
