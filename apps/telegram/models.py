@@ -8,7 +8,6 @@ class Telegram(models.Model):
     last_name = models.CharField(max_length=124, null=True, blank=True, verbose_name='last name')
     age = models.IntegerField(null=True, blank=True, verbose_name='age')
     phone = models.CharField(max_length=70, null=True, blank=True, verbose_name='phone')
-    action = models.CharField(max_length=50, null=True, blank=True, verbose_name='action')
 
     class Meta:
         verbose_name = 'телеграм'
