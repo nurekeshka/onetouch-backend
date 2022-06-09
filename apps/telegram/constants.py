@@ -10,13 +10,23 @@ class Profile:
     name = 'profile'
     command = '/profile'
     message = 'Вот ваш профиль:'
-    text = 'Профиль'
+    button_text = 'Профиль'
 
     button = types.InlineKeyboardButton(
-        text=text,
+        text=button_text,
         callback_data=name
     )
 
+class Edit:
+    name = 'edit'
+    command = '/edit'
+    message = 'Выберите какую информацию профиля редактировать'
+    button_text = 'Редактировать профиль'
+
+    button = types.InlineKeyboardButton(
+        text=button_text,
+        callback_data=name
+    )
 
 
 # class Commands:
