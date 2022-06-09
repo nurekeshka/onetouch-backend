@@ -1,27 +1,46 @@
+from telebot import types
 
 
-class Commands:
-    start = 'start'
-    test = 'test'
-    update = 'update'
-    profile = 'profile'
-    games = 'games'
+class Start:
+    name = 'start'
+    command = '/start'
+    message = 'Добро пожаловать, футболист!\nЗдесь ты можешь зарегистрироваться на игру или посмотреть историю своих матчей'
+
+class Profile:
+    name = 'profile'
+    command = '/profile'
+    message = 'Вот ваш профиль:'
+    text = 'Профиль'
+
+    button = types.InlineKeyboardButton(
+        text=text,
+        callback_data=name
+    )
 
 
-class Messages:
-    start = 'Добро пожаловать, футболист!\nЗдесь ты можешь зарегистрироваться на игру или посмотреть историю своих матчей'
-    test = 'Test'
-    update = 'Введите эту информацию'
-    profile = 'Вот ваш профиль:'
-    games = 'Список всех активных игр:'
+
+# class Commands:
+#     start = 'start'
+#     test = 'test'
+#     edit = 'update'
+#     profile = 'profile'
+#     games = 'games'
 
 
-class ButtonTexts:
-    start = 'Start'
-    test = 'Test Text'
-    update = 'Заполнить профиль'
-    profile = 'Профиль'
-    games = 'Игры'
+# class Messages:
+#     start = 'Добро пожаловать, футболист!\nЗдесь ты можешь зарегистрироваться на игру или посмотреть историю своих матчей'
+#     test = 'Test'
+#     edit = 'Введите эту информацию'
+#     profile = 'Вот ваш профиль:'
+#     games = 'Список всех активных игр:'
+
+
+# class ButtonTexts:
+#     start = 'Start'
+#     test = 'Test Text'
+#     edit = 'Заполнить профиль'
+#     profile = 'Профиль'
+#     games = 'Игры'
 
 
 class Emoji:
