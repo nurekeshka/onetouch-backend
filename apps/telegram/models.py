@@ -23,3 +23,11 @@ class Telegram(models.Model):
             'возраст': self.age,
             'телефон': self.phone
         }
+    
+    def edit(self) -> dict:
+        return {
+            'имя': 'имя',
+            'фамилию': 'фамилия',
+            'возраст': 'возраст',
+            'телефон': 'телефон'
+        }
