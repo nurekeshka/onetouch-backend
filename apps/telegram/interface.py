@@ -1,3 +1,4 @@
+from apps.common.games.models import Game
 from .models import Telegram
 from .constants import Emoji
 from telebot import types
@@ -6,10 +7,6 @@ from telebot import types
 class Start:
     name = 'start'
     message = 'Добро пожаловать, футболист!\nЗдесь ты можешь зарегистрироваться на игру или посмотреть историю своих матчей'
-
-
-class Back:
-    text = '« Вернуться назад'
 
 
 class Menu:
@@ -68,6 +65,22 @@ class Profile:
         )
         
         return inline
+
+
+class Games:
+    name = 'games'
+    text = 'Игры'
+    button = types.InlineKeyboardButton(
+        text=text,
+        callback_data=name
+    )
+
+    def message(user: Telegram):
+        text = Emoji.football.value + _bold(' Все игры на сегодня ') + Emoji.football.value + '\n\n'
+
+
+class Back:
+    text = '« Вернуться назад'
 
 
 def _bold(text: str) -> str:
