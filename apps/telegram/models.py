@@ -16,7 +16,7 @@ class Telegram(models.Model):
     def is_active(self):
         return bool(self.age and self.phone)
     
-    def info(self):
+    def info(self) -> dict:
         return {
             'username': self.username, 
             'first_name': self.first_name,
