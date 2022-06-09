@@ -9,6 +9,7 @@ from . import utils
 def create_fake_information(request):
     if request.user.is_staff:
         utils.create_fake_information()
+    return Response(data='Done',status=201)
 
 
 @api_view(['GET'])
