@@ -25,10 +25,10 @@ class Profile:
     command = '/profile'
     button_text = 'Профиль'
 
-    def message(self, user: Telegram):
+    def message(user: Telegram):
         text = 'Ваш профиль:\n'
         
-        for key, value in user.info.items():
+        for key, value in user.info().items():
             if value is None:
                 value = Emoji.stop
             text += f'{key}: {value}\n'
