@@ -1,8 +1,9 @@
 from .models import Telegram
 from telebot import types
+from enum import Enum
 
 
-class Emoji:
+class Emoji (Enum):
     football = '⚽'
     heart = '❤️'
     explosion = '💥'
@@ -20,18 +21,30 @@ class Start:
     command = '/start'
     message = 'Добро пожаловать, футболист!\nЗдесь ты можешь зарегистрироваться на игру или посмотреть историю своих матчей'
 
+class Menu:
+    def markup(user: Telegram):
+        inline = types.InlineKeyboardMarkup()
+
+        if user.is_active():
+            inline.add( Profile.button )
+        else:
+            inline.add()
+        
+        return inline
+        
+
 class Profile:
     name = 'profile'
     command = '/profile'
     button_text = 'Профиль'
-    message = 'Ваш профиль'
+    message = f'{Emoji.fire.value} Вот ваш невероятный профиль {Emoji.fire.value}'
 
     def markup(user: Telegram):
         inline = types.InlineKeyboardMarkup()
         
         for key, value in user.info().items():
             if value is None:
-                value = Emoji.stop
+                value = Emoji.stop.value
             inline.add(
                 types.InlineKeyboardButton(
                     text=f'{key}: {value}',
@@ -46,6 +59,7 @@ class Profile:
         text=button_text,
         callback_data=name
     )
+
 
 class Edit:
     name = 'edit'
