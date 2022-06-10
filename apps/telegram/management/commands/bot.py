@@ -86,11 +86,31 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
             )
 
         case _:
-            bot.send_message(
-                chat_id=call.message.chat.id,
-                text=call.data,
-                parse_mode='html'
-            )
+            if call.data.startswith('game'):
+                try:
+                    game = Game.objects.get(
+                        pk=int(call.data.split(':')[1])
+                    )
+                except Game.DoesNotExist:
+                    return
+
+                bot.edit_message_text(
+                    chat_id=call.message.chat.id,
+                    message_id=call.message.id,
+                    text=GameDetailed.message(game),
+                    parse_mode='html'
+                )
+                bot.edit_message_reply_markup(
+                    chat_id=call.message.chat.id,
+                    message_id=call.message.id,
+                    reply_markup=GameDetailed.markup(game)
+                )
+            else:
+                bot.send_message(
+                    chat_id=call.message.chat.id,
+                    text=call.data,
+                    parse_mode='html'
+                )
 
 class Command(BaseCommand):
     help = 'Telegram bot setup command '
