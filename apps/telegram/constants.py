@@ -22,3 +22,4 @@ class Emoji (Enum):
     orange = '🟧'
     blue = '🟦'
     green = '🟩'
+    running_guy = '🏃‍♂️'
