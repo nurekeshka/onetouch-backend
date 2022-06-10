@@ -55,7 +55,7 @@ class Profile:
             buttons.append(
                 types.InlineKeyboardButton(
                     text=f'Изменить {key}',
-                    callback_data=value
+                    callback_data=f'edit:{value}'
                 )
             )
         
@@ -145,6 +145,10 @@ class GameDetailed:
 
 class Back:
     text = '« Вернуться назад'
+
+
+class Save:
+    text = 'Сохранено'
 
 
 def _bold(text: str) -> str:
