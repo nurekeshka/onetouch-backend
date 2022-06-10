@@ -123,7 +123,8 @@ class GameDetailed:
         for team in game.teams():
             inline.add(
                 types.InlineKeyboardButton(
-                    text=team.name
+                    text=team.name,
+                    callback_data=f'sign-in:{team.id}'
                 )
             )
 
