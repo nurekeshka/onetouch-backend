@@ -105,6 +105,38 @@ class Games:
         return inline
 
 
+class GameDetailed:
+    
+    def message(game: Game):
+        text = 'Более подробная информация об игре\n\n'
+        
+        for key, value in game.detailed().items():
+            text += f'{_bold(key.title())}: {value}'
+        
+        return text
+    def markup(game: Game):
+        inline = types.InlineKeyboardMarkup(
+            keyboard=None,
+            row_width=1
+        )
+
+        for team in game.teams():
+            inline.add(
+                types.InlineKeyboardButton(
+                    text=team.name
+                )
+            )
+
+        inline.add(
+            types.InlineKeyboardButton(
+                text=Back.text,
+                callback_data=Games.name
+            )
+        )
+
+        return inline
+
+
 class Back:
     text = '« Вернуться назад'
 
