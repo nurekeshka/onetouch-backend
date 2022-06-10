@@ -62,6 +62,15 @@ class Game(models.Model):
     
     def active(self) -> bool:
         return (self.date - date.today()).days > 0
+    
+    def detailed(self) -> dict:
+        return {
+            'адрес': self.field,
+            'формат': f'{self.form - 1} + 1',
+            'дата': self.date,
+            'начало': self.start,
+            'конец': self.end 
+        }
 
 
 @receiver(post_save, sender=Game)
