@@ -111,7 +111,7 @@ class GameDetailed:
         text = 'Более подробная информация об игре\n\n'
         
         for key, value in game.detailed().items():
-            text += f'{_bold(key.title())}: {value}'
+            text += f'{_bold(key.title())}: {value}\n'
         
         return text
     def markup(game: Game):
