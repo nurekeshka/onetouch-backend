@@ -13,7 +13,7 @@ class Menu:
     name = 'menu'
     
     def message(user: Telegram):
-        text = f'Привет {user.username}!'
+        text = f'Привет {user.username}! '
         text += 'Куда отправимся?'
         return text
 
@@ -91,7 +91,7 @@ class Games:
         games = list()
 
         for game in Game.objects.all():
-            if game.active():
+            if game.is_today():
                 games.append(
                     types.InlineKeyboardButton(
                         text=str(game),
