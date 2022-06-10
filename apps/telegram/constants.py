@@ -23,3 +23,5 @@ class Emoji (Enum):
     blue = '🟦'
     green = '🟩'
     running_guy = '🏃‍♂️'
+
+LOGO_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/EA_Sports_monochrome_logo.svg/1200px-EA_Sports_monochrome_logo.svg.png'
