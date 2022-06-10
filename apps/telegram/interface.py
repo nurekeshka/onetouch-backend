@@ -142,6 +142,12 @@ class GameDetailed:
 
         return inline
 
+    def media(game: Game):
+        return types.InputMediaPhoto(
+            media='blob:https://web.telegram.org/dd6bb034-a24e-43df-ac73-8caaec60cc06',
+            caption='Football'
+        )
+
 
 class Back:
     text = '« Вернуться назад'
