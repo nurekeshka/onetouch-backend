@@ -72,6 +72,19 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                 reply_markup=Profile.markup(user)
             )
 
+        case Games.name:
+            bot.edit_message_text(
+                chat_id=call.message.chat.id,
+                message_id=call.message.id,
+                text=Games.message(),
+                parse_mode='html'
+            )
+            bot.edit_message_reply_markup(
+                chat_id=call.message.chat.id,
+                message_id=call.message.id,
+                reply_markup=Games.markup()
+            )
+
         case _:
             bot.send_message(
                 chat_id=call.message.chat.id,
