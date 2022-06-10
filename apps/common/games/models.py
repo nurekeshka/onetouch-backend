@@ -71,6 +71,9 @@ class Game(models.Model):
             'начало': self.start,
             'конец': self.end 
         }
+    
+    def teams(self) -> list:
+        return list(Team.objects.filter(game=self))
 
 
 @receiver(post_save, sender=Game)
