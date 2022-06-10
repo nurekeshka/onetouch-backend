@@ -15,6 +15,7 @@ class Menu:
     def message(user: Telegram):
         text = f'Привет {user.username}!'
         text += 'Куда отправимся?'
+        return text
 
     def markup(user: Telegram):
         inline = types.InlineKeyboardMarkup()
