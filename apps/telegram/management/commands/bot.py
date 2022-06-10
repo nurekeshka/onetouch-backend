@@ -50,7 +50,7 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
             bot.edit_message_text(
                 chat_id=call.message.chat.id,
                 message_id=call.message.id,
-                text=Menu.message,
+                text=Menu.message(user),
                 parse_mode='html'
             )
             bot.edit_message_reply_markup(
@@ -93,7 +93,7 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                     )
                 except Game.DoesNotExist:
                     return
-
+                
                 bot.edit_message_text(
                     chat_id=call.message.chat.id,
                     message_id=call.message.id,
