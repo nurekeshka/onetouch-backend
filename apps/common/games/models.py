@@ -49,7 +49,7 @@ class Game(models.Model):
         ordering = ('date', 'field')
     
     def __str__(self):
-        return f'{self.field.address} : {self.form - 1}+1, {self.date}, {self.start} - {self.end}'
+        return f'{self.start} - {self.end}: {self.form - 1}+1, {self.field.address}'
 
     def players_left(self):
         teams = Team.objects.filter(game=self)
