@@ -17,7 +17,7 @@ class Menu:
         inline = types.InlineKeyboardMarkup()
 
         if user.is_active():
-            inline.add( Profile.button )
+            inline.add( Profile.button, Games.button )
         else:
             inline.add( Profile.button )
         
@@ -69,9 +69,8 @@ class Profile:
 
 class Games:
     name = 'games'
-    text = 'Игры'
     button = types.InlineKeyboardButton(
-        text=text,
+        text='Игры',
         callback_data=name
     )
 
@@ -97,6 +96,12 @@ class Games:
                 )
         
         inline.add(*games)
+        inline.add( types.InlineKeyboardButton(
+                text=Back.text,
+                callback_data=Menu.name
+            ) 
+        )
+
         return inline
 
 
