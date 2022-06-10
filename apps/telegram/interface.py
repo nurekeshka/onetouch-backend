@@ -11,7 +11,10 @@ class Start:
 
 class Menu:
     name = 'menu'
-    message = 'Вот меню. Что хотите сделать?'
+    
+    def message(user: Telegram):
+        text = f'Привет {user.username}!'
+        text += 'Куда отправимся?'
 
     def markup(user: Telegram):
         inline = types.InlineKeyboardMarkup()
@@ -114,6 +117,7 @@ class GameDetailed:
             text += f'{_bold(key.title())}: {value}\n'
         
         return text
+
     def markup(game: Game):
         inline = types.InlineKeyboardMarkup(
             keyboard=None,
