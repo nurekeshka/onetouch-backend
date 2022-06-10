@@ -147,9 +147,5 @@ class Back:
     text = '« Вернуться назад'
 
 
-class Save:
-    text = 'Сохранено'
-
-
 def _bold(text: str) -> str:
     return '<b>' + str(text) + '</b>'
