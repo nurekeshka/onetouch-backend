@@ -91,7 +91,7 @@ class Games:
                 games.append(
                     types.InlineKeyboardButton(
                         text=str(game),
-                        callback_data=game.id
+                        callback_data=f'game:{game.id}'
                     )
                 )
         
