@@ -4,6 +4,7 @@ from django.conf import settings
 from ...models import Telegram
 from ...utils import telegram_user
 from ...interface import *
+from ...constants import LOGO_URL
 from telebot import types
 from telebot import TeleBot
 
@@ -13,9 +14,10 @@ bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
 @bot.message_handler(commands=[Start.name])
 @telegram_user
 def start(message: types.Message, user: Telegram):
-    bot.send_message(
-        chat_id=message.chat.id, 
-        text=Start.message,
+    bot.send_photo(
+        message.chat.id,
+        photo=LOGO_URL,
+        caption=Start.message,
         reply_markup=Menu.markup(user),
         parse_mode='html'
     )
@@ -24,9 +26,10 @@ def start(message: types.Message, user: Telegram):
 @bot.message_handler(commands=[Profile.name])
 @telegram_user
 def profile(message: types.Message, user: Telegram):
-    bot.send_message(
+    bot.send_photo(
         chat_id=message.chat.id,
-        text=Profile.message(user),
+        photo=LOGO_URL,
+        caption=Profile.message(user),
         reply_markup=Profile.markup(user),
         parse_mode='html'
     )
@@ -34,9 +37,10 @@ def profile(message: types.Message, user: Telegram):
 
 @bot.message_handler(commands=[Games.name])
 def games(message: types.Message):
-    bot.send_message(
+    bot.send_photo(
         chat_id=message.chat.id,
-        text=Games.message(),
+        photo=LOGO_URL,
+        caption=Games.message(),
         reply_markup=Games.markup(),
         parse_mode='html'
     )
