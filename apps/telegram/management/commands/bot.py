@@ -105,12 +105,31 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                     message_id=call.message.id,
                     reply_markup=GameDetailed.markup(game)
                 )
+                bot.edit_message_media(
+                    media=GameDetailed.media(game),
+                    chat_id=call.message.chat.id,
+                    message_id=call.message.id
+                )
+            elif call.data.startswith('edit'):
+                pass
             else:
                 bot.send_message(
                     chat_id=call.message.chat.id,
                     text=call.data,
                     parse_mode='html'
                 )
+
+
+@telegram_user
+def edit_first_name(message: types.Message, user: Telegram):
+    user.first_name = message.text
+    user.save()
+    bot.edit_message_media(
+        media='blob:https://web.telegram.org/dd6bb034-a24e-43df-ac73-8caaec60cc06',
+        chat_id=message.chat.id,
+        message_id=message.id
+    )
+
 
 class Command(BaseCommand):
     help = 'Telegram bot setup command '
