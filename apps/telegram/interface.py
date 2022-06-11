@@ -140,7 +140,7 @@ class GameDetailed:
         return inline
 
     def media(game: Game):
-        return 'blob:https://web.telegram.org/dd6bb034-a24e-43df-ac73-8caaec60cc06'
+        return game.field.photo.link
 
 
 class Back:
