@@ -11,8 +11,7 @@ class UserAdmin(admin.ModelAdmin):
         ('first_name', 'last_name'),
         ('date_joined', 'photo'),
         ('email', 'birth_date'),
-        'groups', 'user_permissions',
-        'telegram'
+        'groups', 'user_permissions'
     )
 
 @admin.register(PhoneVerification)
