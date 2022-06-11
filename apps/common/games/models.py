@@ -19,7 +19,7 @@ class Player(models.Model):
         verbose_name_plural = 'игроки'
     
     def __str__(self):
-        return self.position
+        return self.user.get_full_name() if self.user else self.telegram.get_full_name()
 
 
 class Team(models.Model):
