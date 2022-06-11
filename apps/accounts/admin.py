@@ -13,6 +13,7 @@ class UserAdmin(admin.ModelAdmin):
         ('email', 'birth_date'),
         'groups', 'user_permissions'
     )
+    search_fields = list_display
 
 @admin.register(PhoneVerification)
 class PhoneVerificationAdmin(admin.ModelAdmin):
