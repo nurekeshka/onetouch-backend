@@ -111,7 +111,7 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                         bot.register_next_step_handler(
                             message=bot.send_message(
                                 chat_id=call.message.chat.id,
-                                text='Отправьте сообщение со своим именем',
+                                text=Edit.first_name.message,
                                 parse_mode='html'
                             ),
                             callback=edit_first_name
@@ -120,7 +120,7 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                         bot.register_next_step_handler(
                             message=bot.send_message(
                                 chat_id=call.message.chat.id,
-                                text='Отправьте сообщение со своей фамилией',
+                                text=Edit.last_name.message,
                                 parse_mode='html'
                             ),
                             callback=edit_last_name
@@ -129,7 +129,7 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                         bot.register_next_step_handler(
                             message=bot.send_message(
                                 chat_id=call.message.chat.id,
-                                text='Отправьте сообщение содержащее ваш возраст в цифрах',
+                                text=Edit.age.message,
                                 parse_mode='html'
                             ),
                             callback=edit_age
@@ -138,7 +138,7 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                         bot.register_next_step_handler(
                             message=bot.send_message(
                                 chat_id=call.message.chat.id,
-                                text='Отправьте сообщение содержащее ваш телефонный номер',
+                                text=Edit.phone.message,
                                 parse_mode='html'
                             ),
                             callback=edit_phone
@@ -176,7 +176,7 @@ def edit_age(message: types.Message, user: Telegram):
         bot.register_next_step_handler(
             message=bot.send_message(
                 chat_id=message.chat.id,
-                text='Возраст должен быть цифрой. Отправьте сообщение еще раз которое включает только цифры'
+                text=Edit.age.error
             ),
             callback=edit_age
         )
@@ -194,7 +194,7 @@ def edit_phone(message: types.Message, user: Telegram):
         bot.register_next_step_handler(
             message=bot.send_message(
                 chat_id=message.chat.id,
-                text='Телефонный номер не подходит по формату или уже существует пользователь с таким телефонным номером. Отправьте сообщение еще раз в формате:\n+7 *** *** ** **'
+                text=Edit.phone.error
             ),
             callback=edit_phone
         )
