@@ -55,10 +55,10 @@ def _create_fake_fields(count: int):
         photo.save()
 
         field = Field.objects.create(
-            address=fake.address()
+            address=fake.address(),
+            photo=photo
         )
 
-        field.photo.add(photo)
         field.save()
 
 def _create_fake_feedback(count: int, field: Field):
