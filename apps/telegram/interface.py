@@ -16,7 +16,6 @@ class Menu:
         text = f'Привет {user.username}! '
         text += 'Куда отправимся?'
         return text
-
     def markup(user: Telegram):
         inline = types.InlineKeyboardMarkup()
 
@@ -45,7 +44,6 @@ class Profile:
             text += f'{_bold(key.title())}: {value}\n'
         
         return text
-
     def markup(user: Telegram):
         inline = types.InlineKeyboardMarkup(keyboard=None, row_width=2)
         buttons = list()
@@ -81,7 +79,6 @@ class Games:
     def message():
         text = Emoji.football.value + _bold(' Все игры на ближайшее время ') + Emoji.football.value + '\n\n'
         return text
-    
     def markup():
         inline = types.InlineKeyboardMarkup(
             keyboard=None,
@@ -143,14 +140,24 @@ class GameDetailed:
         return inline
 
     def media(game: Game):
-        return types.InputMediaPhoto(
-            media='blob:https://web.telegram.org/dd6bb034-a24e-43df-ac73-8caaec60cc06',
-            caption='Football'
-        )
+        return 'blob:https://web.telegram.org/dd6bb034-a24e-43df-ac73-8caaec60cc06'
 
 
 class Back:
     text = '« Вернуться назад'
+
+
+class Edit:
+    class first_name:
+        message = 'Отправьте сообщение со своим именем'
+    class last_name:
+        message = 'Отправьте сообщение со своей фамилией'
+    class age:
+        message = 'Отправьте сообщение содержащее ваш возраст в цифрах'
+        error = 'Возраст должен быть цифрой. Отправьте сообщение еще раз которое включает только цифры'
+    class phone:
+        message = 'Отправьте сообщение содержащее ваш телефонный номер'
+        error = 'Телефонный номер не подходит по формату или уже существует пользователь с таким телефонным номером. Отправьте сообщение еще раз в формате:\n+7 *** *** ** **'
 
 
 def _bold(text: str) -> str:
