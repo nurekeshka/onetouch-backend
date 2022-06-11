@@ -1,6 +1,6 @@
 from apps.common.games.models import Game
+from .constants import Emoji, MONTHES
 from .models import Telegram
-from .constants import Emoji
 from telebot import types
 
 
@@ -109,10 +109,20 @@ class Games:
 class GameDetailed:
     
     def message(game: Game):
-        text = 'Более подробная информация об игре\n\n'
-        
-        for key, value in game.detailed().items():
-            text += f'{_bold(key.title())}: {value}\n'
+        teams = game.teams()
+
+        text = f'{Emoji.voice.value} Игра #{game.pk}\n\n'
+        text += f'{Emoji.calendar.value} {game.date.day} {MONTHES[game.date.month]}\n'
+        text += f'{Emoji.marker.value} Адрес: {game.field.address}\n'
+        text += f'{Emoji.clock.value} Время: {game.start} - {game.end}\n'
+        text += f'{Emoji.people.value} Формат: {game.form - 1} + 1 ({len(teams)} команды)\n'
+        text += f'{Emoji.money.value} С человека ₸ 2 000\n'
+        text += f'{Emoji.pencil.value} Запись по кнопке ниже\n'
+        text += f'{Emoji.credit_card.value} Оплата тоже по кнопке ниже\n\n'
+        text += f'{Emoji.orange.value} {teams[0].players.all()}\n'
+        text += f'{Emoji.blue.value} {teams[1].players.all()}\n'
+        text += f'{Emoji.green.value} {teams[2].players.all()}\n\n'
+        text += f'{Emoji.running_guy.value} Осталось мест: {game.players_left()}'
         
         return text
 
