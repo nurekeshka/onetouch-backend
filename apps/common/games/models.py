@@ -73,7 +73,7 @@ class Game(models.Model):
         }
     
     def teams(self) -> list:
-        return list(Team.objects.filter(game=self))
+        return Team.objects.filter(game=self)
 
 
 @receiver(post_save, sender=Game)
