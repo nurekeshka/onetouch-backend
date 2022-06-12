@@ -119,10 +119,20 @@ class GameDetailed:
         text += f'{Emoji.money.value} С человека: ₸ 2 000\n'
         text += f'{Emoji.pencil.value} Запись по кнопке ниже\n'
         text += f'{Emoji.credit_card.value} Оплата тоже по кнопке ниже\n\n'
-        text += f'{Emoji.orange.value} {teams[0].players}\n'
-        text += f'{Emoji.blue.value} {teams[1].players}\n'
-        text += f'{Emoji.green.value} {teams[2].players}\n\n'
-        text += f'{Emoji.running_guy.value} Осталось мест: {game.players_left()}'
+        
+        for team in teams:
+            text += f'{team.emoji} {team.name} ('
+            players = team.players.all()
+
+            if players:
+                for player in players:
+                    text += f'{player}, '
+                text = text[:-2] + ')\n'
+            else:
+                text += '...)\n'
+
+
+        text += f'\n{Emoji.running_guy.value} Осталось мест: {game.players_left()}'
         
         return text
 
