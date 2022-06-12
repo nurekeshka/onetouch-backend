@@ -101,4 +101,3 @@ def save_teams(sender, instance, **kwargs):
             game=instance,
             name=name
         ).save()
-
