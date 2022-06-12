@@ -10,8 +10,8 @@ class GameAdmin(admin.ModelAdmin):
 
 @admin.register(models.Team)
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'game')
-    fields = ('name', 'players', 'game')
+    list_display = ('id', 'name', 'game', 'emoji')
+    fields = ('name', 'players', 'game', 'emoji')
     order_by = ('name')
 
 @admin.register(models.Player)
