@@ -49,6 +49,7 @@ class Game(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='date')
     start = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='start')
     end = models.TimeField(auto_now=False, auto_now_add=False, verbose_name='end')
+    payment = models.IntegerField(verbose_name='payment')
 
     class Meta:
         verbose_name = 'игра'

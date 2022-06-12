@@ -4,8 +4,8 @@ from . import models
 
 @admin.register(models.Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('field', 'form', 'date', 'start', 'end')
-    fields = ('field', 'form', 'date', 'start', 'end')
+    list_display = ('field', 'form', 'date', 'start', 'end', 'payment')
+    fields = ('field', 'form', 'date', 'start', 'end', 'payment')
     order_by = ('date',)
 
 @admin.register(models.Team)
