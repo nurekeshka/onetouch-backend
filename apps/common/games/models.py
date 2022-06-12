@@ -1,6 +1,7 @@
 from django.db.models.signals import post_save
 from apps.common.fields.models import Field
 from apps.telegram.models import Telegram
+from apps.telegram.constants import Emoji
 from .constants import PLAYER_POSITIONS
 from apps.accounts.models import User
 from django.dispatch import receiver
@@ -23,9 +24,15 @@ class Player(models.Model):
 
 
 class Team(models.Model):
+    class Colors(models.TextChoices):
+        orange = ('Оранжевые', Emoji.orange.value)
+        blue = ('Синие', Emoji.blue.value)
+        green = ('Зеленые', Emoji.green.value)
+
     name = models.CharField(max_length=50, verbose_name='name')
     players = models.ManyToManyField(Player, blank=True, verbose_name='players')
     game = models.ForeignKey('Game', on_delete=models.CASCADE, verbose_name='game')
+    emoji = models.CharField(choices=Colors.choices, max_length=50, verbose_name='emoji')
 
     class Meta:
         verbose_name = 'команда'
