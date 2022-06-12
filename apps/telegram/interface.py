@@ -116,7 +116,7 @@ class GameDetailed:
         text += f'{Emoji.marker.value} Адрес: {game.field.address}\n'
         text += f'{Emoji.clock.value} Время: {game.start.strftime("%H:%M")} - {game.end.strftime("%H:%M")}\n'
         text += f'{Emoji.people.value} Формат: {game.form - 1} + 1 ({len(teams)} команды)\n'
-        text += f'{Emoji.money.value} С человека: ₸ 2 000\n'
+        text += f'{Emoji.money.value} С человека: ₸ {game.payment}\n'
         text += f'{Emoji.pencil.value} Запись по кнопке ниже\n'
         text += f'{Emoji.credit_card.value} Оплата тоже по кнопке ниже\n\n'
         
