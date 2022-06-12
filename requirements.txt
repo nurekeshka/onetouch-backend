@@ -3,3 +3,4 @@ djangorestframework==0.1.0
 django-cors-headers==3.12.0
 faker==13.12.0
 phonenumbers==8.12.48
+psycopg2==2.9.3
