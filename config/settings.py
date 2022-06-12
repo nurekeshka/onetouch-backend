@@ -172,3 +172,6 @@ AUTH_USER_MODEL =  'accounts.User'
 
 # STATIC_ROOT
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# GAME Configuration
+DEFAULT_ENTRY_FEE = int(config.get('GAME', 'DEFAULT_ENTRY_FEE'))
