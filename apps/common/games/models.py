@@ -25,9 +25,9 @@ class Player(models.Model):
 
 class Team(models.Model):
     class Colors(models.TextChoices):
-        orange = ('Оранжевые', Emoji.orange.value)
-        blue = ('Синие', Emoji.blue.value)
-        green = ('Зеленые', Emoji.green.value)
+        orange = (Emoji.orange.value, 'Оранжевые')
+        blue = (Emoji.blue.value, 'Синие')
+        green = (Emoji.green.value, 'Зеленые')
 
     name = models.CharField(max_length=50, verbose_name='name')
     players = models.ManyToManyField(Player, blank=True, verbose_name='players')
