@@ -32,7 +32,7 @@ class Team(models.Model):
     name = models.CharField(max_length=50, verbose_name='name')
     players = models.ManyToManyField(Player, blank=True, verbose_name='players')
     game = models.ForeignKey('Game', on_delete=models.CASCADE, verbose_name='game')
-    emoji = models.CharField(choices=Colors.choices, max_length=50, verbose_name='emoji')
+    emoji = models.CharField(choices=Colors.choices, null=True, max_length=50, verbose_name='emoji')
 
     class Meta:
         verbose_name = 'команда'
