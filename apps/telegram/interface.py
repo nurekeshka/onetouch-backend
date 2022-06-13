@@ -114,6 +114,7 @@ class GameDetailed:
         text = f'{Emoji.voice.value} Игра #{game.pk}\n\n'
         text += f'{Emoji.calendar.value} {game.date.day} {MONTHES[game.date.month]}\n'
         text += f'{Emoji.marker.value} Адрес: {game.field.address}\n'
+        text += f'{Emoji.rocket.value} {game.field.gis_link}\n'
         text += f'{Emoji.clock.value} Время: {game.start.strftime("%H:%M")} - {game.end.strftime("%H:%M")}\n'
         text += f'{Emoji.people.value} Формат: {game.form - 1} + 1 ({len(teams)} команды)\n'
         text += f'{Emoji.money.value} С человека: ₸ {game.payment}\n'
