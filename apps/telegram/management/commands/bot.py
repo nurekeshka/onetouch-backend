@@ -1,7 +1,7 @@
+from ...utils import telegram_user, telegram_active_only
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from ...models import Telegram
-from ...utils import telegram_user
 from ...interface import *
 from ...constants import LOGO_URL
 from telebot import types
@@ -36,7 +36,9 @@ def profile(message: types.Message, user: Telegram):
 
 
 @bot.message_handler(commands=[Games.name])
-def games(message: types.Message):
+@telegram_user
+@telegram_active_only(bot)
+def games(message: types.Message, user):
     bot.send_photo(
         chat_id=message.chat.id,
         photo=LOGO_URL,
@@ -198,6 +200,7 @@ def edit_phone(message: types.Message, user: Telegram):
             ),
             callback=edit_phone
         )
+
 
 class Command(BaseCommand):
     help = 'Telegram bot setup command'
