@@ -1,3 +1,4 @@
+from apps.telegram.constants import TEAM_EMOJI
 from django.db.models.signals import post_save
 from apps.common.fields.models import Field
 from apps.telegram.models import Telegram
@@ -91,7 +92,8 @@ def create_teams(sender, instance, created, **kwargs):
         for name in TEAM_NAMES:
             Team.objects.create(
                 name=name,
-                game=instance
+                game=instance,
+                emoji=TEAM_EMOJI[name]
             )
 
 @receiver(post_save, sender=Game)
@@ -99,5 +101,6 @@ def save_teams(sender, instance, **kwargs):
     for name in TEAM_NAMES:
         Team.objects.get(
             game=instance,
-            name=name
+            name=name,
+            emoji=TEAM_EMOJI[name]
         ).save()

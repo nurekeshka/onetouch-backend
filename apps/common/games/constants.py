@@ -1,5 +1,3 @@
-from apps.telegram.constants import Emoji
-
 TEAM_NAMES = (
     'Оранжевые',
     'Синие',
