@@ -14,7 +14,7 @@ class FeedbackAdmin(admin.ModelAdmin):
 @admin.register(models.Field)
 class FieldAdmin(admin.ModelAdmin):
     list_display = ('address', 'latitude', 'longitude', 'contacts')
-    fields = ('address','latitude', 'longitude', 'photo', 'contacts', 'facilities')
+    fields = ('address','latitude', 'longitude', 'photo', 'contacts', 'facilities', 'gis_link')
 
 @admin.register(models.Facility)
 class FacilityAdmin(admin.ModelAdmin):
