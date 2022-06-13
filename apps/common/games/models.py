@@ -15,7 +15,7 @@ from datetime import date
 class Player(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, verbose_name='user')
     telegram = models.ForeignKey(Telegram, on_delete=models.CASCADE, null=True, blank=True, verbose_name='telegram')
-    position = models.CharField(max_length=2, choices=PLAYER_POSITIONS, default=PLAYER_POSITIONS[3])
+    position = models.CharField(max_length=2, choices=PLAYER_POSITIONS, default=PLAYER_POSITIONS[3][0])
 
     class Meta:
         verbose_name = 'игрок'
@@ -87,7 +87,7 @@ class Game(models.Model):
 
 
 @receiver(post_save, sender=Game)
-def create_teams(sender, instance, created, **kwargs):
+def create_player(sender, instance, created, **kwargs):
     if created:
         for name in TEAM_NAMES:
             Team.objects.create(
@@ -97,10 +97,20 @@ def create_teams(sender, instance, created, **kwargs):
             )
 
 @receiver(post_save, sender=Game)
-def save_teams(sender, instance, **kwargs):
+def save_player(sender, instance, **kwargs):
     for name in TEAM_NAMES:
         Team.objects.get(
             game=instance,
             name=name,
             emoji=TEAM_EMOJI[name]
         ).save()
+
+@receiver(post_save, sender=Telegram)
+def create_player(sender, instance, created, **kwargs):
+    if instance.is_active():
+        Player.objects.create(telegram=instance)
+
+@receiver(post_save, sender=Telegram)
+def save_player(sender, instance, **kwargs):
+    if instance.is_active():
+        Player.objects.get(telegram=instance).save()

@@ -13,8 +13,6 @@ def telegram_user(function):
                 'last_name': payload.from_user.last_name
             }
         )
-        if created:
-            Player.objects.create(telegram=user).save()
 
         function(payload, user)
     return inner
