@@ -15,7 +15,7 @@ from datetime import date
 class Player(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, verbose_name='user')
     telegram = models.ForeignKey(Telegram, on_delete=models.CASCADE, null=True, blank=True, verbose_name='telegram')
-    position = models.CharField(max_length=2, choices=PLAYER_POSITIONS, default='PL')
+    position = models.CharField(max_length=2, choices=PLAYER_POSITIONS, default=PLAYER_POSITIONS[3])
 
     class Meta:
         verbose_name = 'игрок'
