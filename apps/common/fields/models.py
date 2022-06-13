@@ -33,9 +33,10 @@ class Field(models.Model):
     address = models.CharField(max_length=254, verbose_name='address')
     latitude = models.FloatField(null=True, blank=True, verbose_name='latitude')
     longitude = models.FloatField(null=True, blank=True, verbose_name='longitude')
-    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, verbose_name='photo')
+    photo = models.ManyToManyField(Photo, verbose_name='photo')
     contacts = models.TextField(blank=True, verbose_name='contacts')
     facilities = models.ManyToManyField('Facility', verbose_name='facilities')
+    gis_link = models.CharField(max_length=255, null=True, verbose_name='gis_link')
 
     class Meta:
         verbose_name = 'поле'
