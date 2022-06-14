@@ -146,6 +146,32 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                             ),
                             callback=edit_phone
                         )
+            elif call.data.startswith('sign-in'):
+                id = int(call.data.split(':')[1])
+                invoice = GameInvoice(id)
+
+                bot.send_invoice(
+                    chat_id=call.message.chat.id,
+
+                    title=invoice.title,
+                    description=invoice.description,
+
+                    invoice_payload=f'team_id:{id}',
+                    provider_token='381764678:TEST:38372',
+                    currency='rub',
+                    prices=invoice.prices,
+                    photo_url=invoice.photo_url,
+                    photo_height=512,
+                    photo_width=512,
+
+                    need_name=False,
+                    need_phone_number=False,
+                    need_email=False,
+                    need_shipping_address=False,
+
+                    is_flexible=True
+                )
+                
             else:
                 bot.send_message(
                     chat_id=call.message.chat.id,
@@ -204,61 +230,6 @@ def edit_phone(message: types.Message, user: Telegram):
             ),
             callback=edit_phone
         )
-
-
-# @bot.message_handler(commands=['test'])
-# @telegram_user
-# @telegram_active_only(bot)
-# def test_invoice(message: types.Message, user: Telegram):
-#     game = Game.objects.get(pk=1)
-#     bot.send_invoice(
-#         chat_id=message.chat.id,
-
-#         title=f'Игра #{game.id}',
-#         description=game,
-
-#         provider_token='381764678:TEST:38372',
-#         currency='RUB',
-
-#         photo_url='https://fox5sandiego.com/wp-content/uploads/sites/15/2021/12/thumbnail_image001.jpg?w=1280',
-#         photo_height=512,
-#         photo_width=512,
-
-#         need_name=False,
-#         need_shipping_address=False,
-#         need_email=False,
-#         need_phone_number=False,
-
-
-#         is_flexible=False,
-
-#         prices=[
-#             types.LabeledPrice(
-#                 label='Записаться на игру',
-#                 amount=game.payment * 100
-#             )
-#         ],
-
-#         start_parameter='get_access',
-#         invoice_payload='some invoice'
-#     )
-
-
-# @bot.shipping_query_handler(lambda q: True)
-# def test_shipping_handler(shipping_query: types.ShippingQuery):
-#     print(shipping_query.de_json())
-#     return bot.answer_shipping_query(
-#         shipping_query_id=shipping_query.id,
-#         ok=True
-#     )
-
-
-# @bot.pre_checkout_query_handler(lambda q: True)
-# def test_pre_checkout_query_handler(pre_checkout_query: types.PreCheckoutQuery):
-#     return bot.answer_pre_checkout_query(
-#         pre_checkout_query_id=pre_checkout_query.id,
-#         ok=True
-#     )
 
 
 class Command(BaseCommand):

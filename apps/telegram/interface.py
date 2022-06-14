@@ -1,15 +1,15 @@
-from apps.common.games.models import Game
+from apps.common.games.models import Game, Team
 from .constants import Emoji, MONTHES
 from .models import Telegram
 from telebot import types
 
 
-class Start:
+class Start(object):
     name = 'start'
     message = 'Добро пожаловать, футболист!\nЗдесь ты можешь зарегистрироваться на игру или посмотреть историю своих матчей'
 
 
-class Menu:
+class Menu(object):
     name = 'menu'
 
     def message(user: Telegram):
@@ -69,7 +69,7 @@ class Profile:
         return inline
 
 
-class Games:
+class Games(object):
     name = 'games'
     button = types.InlineKeyboardButton(
         text='Игры',
@@ -109,7 +109,7 @@ class Games:
         return inline
 
 
-class GameDetailed:
+class GameDetailed(object):
 
     def message(game: Game):
         teams = game.teams()
@@ -166,11 +166,11 @@ class GameDetailed:
         return game.field.photo.link
 
 
-class Back:
+class Back(object):
     text = '« Вернуться назад'
 
 
-class Edit:
+class Edit(object):
     class first_name:
         message = 'Отправьте сообщение со своим именем'
 
@@ -184,6 +184,19 @@ class Edit:
     class phone:
         message = 'Отправьте сообщение содержащее ваш телефонный номер'
         error = 'Телефонный номер не подходит по формату или уже существует пользователь с таким телефонным номером. Отправьте сообщение еще раз в формате:\n+7 *** *** ** **'
+
+
+class GameInvoice(object):
+
+    def __init__(self, team_id: int):
+        self.team = Team.objects.get(pk=team_id)
+
+        self.title = f'Запись в команду: {str(self.team)}'
+        self.description = str(self.team.game)
+        self.prices = [ types.LabeledPrice( label=self.title, amount=self.team.game.payment ) ]
+        self.photo_url = self.team.game.field.photo.url
+
+        return self
 
 
 def _bold(text: str) -> str:
