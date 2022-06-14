@@ -5,7 +5,7 @@ import telebot
 
 def telegram_user(function):
     def inner(message: telebot.types.Message):
-        user, created  = Telegram.objects.get_or_create(
+        user, created = Telegram.objects.get_or_create(
             id=message.from_user.id,
             defaults={
                 'username': message.from_user.username,
