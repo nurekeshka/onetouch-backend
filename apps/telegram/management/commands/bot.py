@@ -186,6 +186,11 @@ def shipping_query_handler(shipping_query: types.ShippingQuery):
             shipping_options=[types.ShippingOption(
                     id='default',
                     title='Стандарт'
+                ).add_price(
+                    types.LabeledPrice(
+                        label='Бесплатная',
+                        amount=0
+                    )
                 )
             ]
         )
