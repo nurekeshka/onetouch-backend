@@ -202,6 +202,14 @@ def shipping_query_handler(shipping_query: types.ShippingQuery):
         )
 
 
+@bot.pre_checkout_query_handler(lambda q: True)
+def pre_checkout_query_handler(pre_checkout_query: types.PreCheckoutQuery):
+    bot.answer_pre_checkout_query(
+        pre_checkout_query_id=pre_checkout_query.id,
+        ok=True
+    )
+
+
 @telegram_user
 def edit_first_name(message: types.Message, user: Telegram):
     user.first_name = message.text
