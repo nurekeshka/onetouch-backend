@@ -192,11 +192,9 @@ class GameInvoice(object):
         self.team = Team.objects.get(pk=team_id)
 
         self.title = f'Запись в команду: {str(self.team)}'
-        self.description = str(self.team.game)
-        self.prices = [ types.LabeledPrice( label=self.title, amount=self.team.game.payment ) ]
-        self.photo_url = self.team.game.field.photo.url
-
-        return self
+        self.description = f'{self.team.game.date}, ' + str(self.team.game)
+        self.prices = [ types.LabeledPrice( label=self.title, amount=self.team.game.payment * 100 ) ]
+        self.photo_url = self.team.game.field.photo.link
 
 
 def _bold(text: str) -> str:
