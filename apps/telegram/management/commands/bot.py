@@ -51,7 +51,7 @@ def games(message: types.Message, user):
 
 @bot.callback_query_handler(func=lambda call: True)
 @telegram_user
-def callback_handler(call: types.CallbackQuery, user: Telegram):
+def callback_query_handler(call: types.CallbackQuery, user: Telegram):
     match call.data:
         case Menu.name:
             bot.edit_message_media(
@@ -160,9 +160,6 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                     provider_token='381764678:TEST:38372',
                     currency='rub',
                     prices=invoice.prices,
-                    photo_url=invoice.photo_url,
-                    photo_height=512,
-                    photo_width=512,
 
                     need_name=False,
                     need_phone_number=False,
@@ -178,6 +175,26 @@ def callback_handler(call: types.CallbackQuery, user: Telegram):
                     text=call.data,
                     parse_mode='html'
                 )
+
+
+@bot.shipping_query_handler(lambda q: True)
+def shipping_query_handler(shipping_query: types.ShippingQuery):
+    if shipping_query.shipping_address.country_code == 'KZ':
+        bot.answer_shipping_query(
+            shipping_query_id=shipping_query.id,
+            ok=True,
+            shipping_options=[types.ShippingOption(
+                    id='default',
+                    title='Стандарт'
+                )
+            ]
+        )
+    else:
+        bot.answer_shipping_query(
+            shipping_query_id=shipping_query.id,
+            ok=False,
+            error_message='Наши игры доступны пока только в Казахстане'
+        )
 
 
 @telegram_user
