@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from ...utils import telegram_user, telegram_active_only
+from ...utils import telegram_user, telegram_active_only, sign_player_to_game
 from ...models import Telegram
 from ...interface import *
 from ...constants import LOGO_URL
@@ -39,7 +39,7 @@ def profile(message: types.Message, user: Telegram):
 @bot.message_handler(commands=[Games.name])
 @telegram_user
 @telegram_active_only(bot)
-def games(message: types.Message, user):
+def games(message: types.Message, user: Telegram):
     bot.send_photo(
         chat_id=message.chat.id,
         photo=LOGO_URL,
@@ -157,18 +157,19 @@ def callback_query_handler(call: types.CallbackQuery, user: Telegram):
                     description=invoice.description,
 
                     invoice_payload=f'team_id:{id}',
-                    provider_token='381764678:TEST:38372',
+                    provider_token='5322214758:TEST:3e38448f-ed1a-4573-9aca-5a7846818076',
                     currency='rub',
                     prices=invoice.prices,
 
                     need_name=False,
                     need_phone_number=False,
                     need_email=False,
-                    need_shipping_address=False,
+                    need_shipping_address=True,
 
-                    is_flexible=True
+                    is_flexible=True,
+                    start_parameter='sign-in-to-game'
                 )
-                
+
             else:
                 bot.send_message(
                     chat_id=call.message.chat.id,
@@ -179,19 +180,20 @@ def callback_query_handler(call: types.CallbackQuery, user: Telegram):
 
 @bot.shipping_query_handler(lambda q: True)
 def shipping_query_handler(shipping_query: types.ShippingQuery):
-    if shipping_query.shipping_address.country_code == 'KZ':
+    # if shipping_query.shipping_address.country_code == 'KZ':
+    if True:
         bot.answer_shipping_query(
             shipping_query_id=shipping_query.id,
             ok=True,
             shipping_options=[types.ShippingOption(
-                    id='default',
-                    title='Стандарт'
-                ).add_price(
-                    types.LabeledPrice(
-                        label='Бесплатная',
-                        amount=0
-                    )
+                id='default',
+                title='Стандарт'
+            ).add_price(
+                types.LabeledPrice(
+                    label='Бесплатная',
+                    amount=0
                 )
+            )
             ]
         )
     else:
@@ -206,8 +208,19 @@ def shipping_query_handler(shipping_query: types.ShippingQuery):
 def pre_checkout_query_handler(pre_checkout_query: types.PreCheckoutQuery):
     bot.answer_pre_checkout_query(
         pre_checkout_query_id=pre_checkout_query.id,
-        ok=True
+        ok=True,
+        error_message="Aliens tried to steal your card's CVV, but we successfully protected your credentials,"
+        " try to pay again in a few minutes, we need a small rest."
     )
+
+
+@bot.message_handler(content_types=['successful_payment'])
+@telegram_user
+def successful_payment_query_handler(message: types.Message, user: Telegram):
+    team_id = int(message.successful_payment.invoice_payload.split(':')[0])
+    sign_player_to_game(team_id, user)
+
+    games(message)
 
 
 @telegram_user
