@@ -1,3 +1,4 @@
+from apps.common.games.models import Player, Team
 from .models import Telegram
 import telebot
 
@@ -31,3 +32,15 @@ def telegram_active_only(bot: telebot.TeleBot):
 
         return inner
     return decorator
+
+
+def sign_player_to_game(team: Team, user: Telegram) -> bool:
+    try:
+        player = Player.objects.get(telegram=user)
+    except Player.DoesNotExist:
+        return False
+
+    team.players.add(player)
+    team.save()
+
+    return True
