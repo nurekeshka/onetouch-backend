@@ -1,4 +1,3 @@
-from apps.common.games.models import Player
 from .models import Telegram
 import telebot
 
