@@ -34,10 +34,11 @@ def telegram_active_only(bot: telebot.TeleBot):
     return decorator
 
 
-def sign_player_to_game(team: Team, user: Telegram) -> bool:
+def sign_player_to_game(team_id: int, user: Telegram) -> bool:
     try:
+        team = Team.objects.get(id=team_id)
         player = Player.objects.get(telegram=user)
-    except Player.DoesNotExist:
+    except Team.DoesNotExist or Player.DoesNotExist:
         return False
 
     team.players.add(player)
