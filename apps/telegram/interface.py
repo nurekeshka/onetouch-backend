@@ -11,19 +11,20 @@ class Start:
 
 class Menu:
     name = 'menu'
-    
+
     def message(user: Telegram):
         text = f'Привет {user.username}! '
         text += 'Куда отправимся?'
         return text
+
     def markup(user: Telegram):
         inline = types.InlineKeyboardMarkup()
 
         if user.is_active():
-            inline.add( Profile.button, Games.button )
+            inline.add(Profile.button, Games.button)
         else:
-            inline.add( Profile.button )
-        
+            inline.add(Profile.button)
+
         return inline
 
 
@@ -36,14 +37,16 @@ class Profile:
     )
 
     def message(user: Telegram):
-        text = Emoji.fire.value + _bold(' Вот ваш невероятный профиль ') + Emoji.fire.value + '\n\n'
+        text = Emoji.fire.value + \
+            _bold(' Вот ваш невероятный профиль ') + Emoji.fire.value + '\n\n'
 
         for key, value in user.info().items():
             if value is None:
                 value = Emoji.stop.value
             text += f'{_bold(key.title())}: {value}\n'
-        
+
         return text
+
     def markup(user: Telegram):
         inline = types.InlineKeyboardMarkup(keyboard=None, row_width=2)
         buttons = list()
@@ -56,16 +59,14 @@ class Profile:
                     callback_data=f'edit:{value}'
                 )
             )
-        
+
         inline.add(*buttons)
-        
-        # Back button
-        inline.add( types.InlineKeyboardButton(
-                text=Back.text,
-                callback_data=Menu.name
-            ) 
+        inline.add(types.InlineKeyboardButton(
+            text=Back.text,
+            callback_data=Menu.name
         )
-        
+        )
+
         return inline
 
 
@@ -77,8 +78,11 @@ class Games:
     )
 
     def message():
-        text = Emoji.football.value + _bold(' Все игры на ближайшее время ') + Emoji.football.value + '\n\n'
+        text = Emoji.football.value + \
+            _bold(' Все игры на ближайшее время ') + \
+            Emoji.football.value + '\n\n'
         return text
+
     def markup():
         inline = types.InlineKeyboardMarkup(
             keyboard=None,
@@ -95,19 +99,19 @@ class Games:
                         callback_data=f'game:{game.id}'
                     )
                 )
-        
+
         inline.add(*games)
-        inline.add( types.InlineKeyboardButton(
-                text=Back.text,
-                callback_data=Menu.name
-            ) 
+        inline.add(types.InlineKeyboardButton(
+            text=Back.text,
+            callback_data=Menu.name
+        )
         )
 
         return inline
 
 
 class GameDetailed:
-    
+
     def message(game: Game):
         teams = game.teams()
 
@@ -120,7 +124,7 @@ class GameDetailed:
         text += f'{Emoji.money.value} С человека: ₸ {game.payment}\n'
         text += f'{Emoji.pencil.value} Запись по кнопке ниже\n'
         text += f'{Emoji.credit_card.value} Оплата тоже по кнопке ниже\n\n'
-        
+
         for team in teams:
             text += f'{team.emoji} {team.name} ('
             players = team.players.all()
@@ -132,9 +136,8 @@ class GameDetailed:
             else:
                 text += '...)\n'
 
-
         text += f'\n{Emoji.running_guy.value} Осталось мест: {game.players_left()}'
-        
+
         return text
 
     def markup(game: Game):
@@ -171,11 +174,14 @@ class Back:
 class Edit:
     class first_name:
         message = 'Отправьте сообщение со своим именем'
+
     class last_name:
         message = 'Отправьте сообщение со своей фамилией'
+
     class age:
         message = 'Отправьте сообщение содержащее ваш возраст в цифрах'
         error = 'Возраст должен быть цифрой. Отправьте сообщение еще раз которое включает только цифры'
+
     class phone:
         message = 'Отправьте сообщение содержащее ваш телефонный номер'
         error = 'Телефонный номер не подходит по формату или уже существует пользователь с таким телефонным номером. Отправьте сообщение еще раз в формате:\n+7 *** *** ** **'
