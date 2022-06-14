@@ -157,16 +157,16 @@ def callback_query_handler(call: types.CallbackQuery, user: Telegram):
                     description=invoice.description,
 
                     invoice_payload=f'team_id:{id}',
-                    provider_token='5322214758:TEST:3e38448f-ed1a-4573-9aca-5a7846818076',
+                    provider_token='381764678:TEST:38372',
                     currency='rub',
                     prices=invoice.prices,
 
                     need_name=False,
                     need_phone_number=False,
                     need_email=False,
-                    need_shipping_address=True,
+                    need_shipping_address=False,
 
-                    is_flexible=True,
+                    is_flexible=False,
                     start_parameter='sign-in-to-game'
                 )
 
