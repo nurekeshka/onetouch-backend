@@ -264,15 +264,18 @@ def edit_phone(message: types.Message, user: Telegram):
             user.save()
             profile(message)
         else:
-            raise TypeError()
-    except:
-        bot.register_next_step_handler(
-            message=bot.send_message(
-                chat_id=message.chat.id,
-                text=Edit.phone.error
-            ),
-            callback=edit_phone
-        )
+            raise pns.phonenumberutil.NumberParseException(
+                error_type=1,
+                msg='Invalid phone number provided'
+            )
+    except pns.phonenumberutil.NumberParseException:
+            bot.register_next_step_handler(
+                message=bot.send_message(
+                    chat_id=message.chat.id,
+                    text=Edit.phone.error
+                ),
+                callback=edit_phone
+            )
 
 
 class Command(BaseCommand):
