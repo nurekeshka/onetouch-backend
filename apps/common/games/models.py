@@ -108,7 +108,7 @@ def save_player(sender, instance, **kwargs):
 @receiver(post_save, sender=Telegram)
 def create_player(sender, instance, created, **kwargs):
     if instance.is_active():
-        Player.objects.create(telegram=instance)
+        Player.objects.get_or_create(telegram=instance)
 
 @receiver(post_save, sender=Telegram)
 def save_player(sender, instance, **kwargs):
