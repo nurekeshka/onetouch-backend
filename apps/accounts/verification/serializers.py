@@ -12,12 +12,11 @@ class PhoneVerificationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return PhoneVerification.objects.create(**validated_data)
 
-    def validate_phone(self, value):
+    def validate_phone(self, value: str):
         ''' Check if phone answers the format '''
-        try:
-            if pns.is_possible_number(pns.parse(value)):
-                pass
-        except:
+        value = value.strip().replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
+        
+        if not ~value.find('+') and not value[value.find('+') + 1:].isnumeric():
             raise serializers.ValidationError('Phone has wrong format. It should contain: Country Code, National Number')
         
         if User.objects.filter(phone=value).exists():
