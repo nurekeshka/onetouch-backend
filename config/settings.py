@@ -163,7 +163,7 @@ TELEGRAM_BOT_API_KEY = config.get('API KEYS', 'AIRSOFT_BOT')
 # REST Framework configuration
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [ 'rest_framework.authentication.TokenAuthentication' ],
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+    'TEST_REQUEST_DEFAULT_FORMAT': 'multipart'
 }
 
 # Authentication model
