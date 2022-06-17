@@ -44,15 +44,15 @@ def verify(payload: dict) -> tuple:
     try:
         verification = PhoneVerification.objects.get(phone=payload.get('phone'))
     except PhoneVerification.DoesNotExist:
-        return {'phone': ['Does not exist in verification table']}, status.HTTP_404_NOT_FOUND
+        return {'error': 'phone verification does not exist in verification table'}, status.HTTP_404_NOT_FOUND
     
     if verification.code == confirmed:
-        return {'phone': ['Already verified']}, status.HTTP_400_BAD_REQUEST
+        return {'error': 'phone is already verified'}, status.HTTP_400_BAD_REQUEST
 
     elif verification.code == payload.get('code'):
         verification.code = confirmed
         verification.save()
-        return {'phone': ['Successfully verified']}, status.HTTP_200_OK
+        return {'success': 'phone successfully verified'}, status.HTTP_200_OK
 
     else:
-        return {'phone': ['Phone and code does not match together']}, status.HTTP_404_NOT_FOUND
+        return {'error': 'phone and code does not seem to match together'}, status.HTTP_404_NOT_FOUND
