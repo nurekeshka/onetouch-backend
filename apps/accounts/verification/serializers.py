@@ -16,7 +16,7 @@ class PhoneVerificationSerializer(serializers.ModelSerializer):
         value = value.strip().replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
         
         if not (~value.find('+') and value[value.find('+') + 1:].isdigit()) or len(value) < 12:
-            raise serializers.ValidationError('Phone has wrong format. It should contain: Country Code, National Number')
+            raise serializers.ValidationError('Phone has wrong format. It should contain: Country Code, National Number and be 12 characters long')
         
         if User.objects.filter(phone=value).exists():
             raise serializers.ValidationError('User with that phone number already exists')
