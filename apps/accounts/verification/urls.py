@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('start/', views.start_phone_verification, name='start-phone-verification'),
-    path('verify/', views.verificate_phone, name='verify-phone')
+    path('verify/', views.verify_phone, name='verify-phone')
 ]

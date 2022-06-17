@@ -15,6 +15,6 @@ def start_phone_verification(request):
 
 
 @api_view(['PUT'])
-def verificate_phone(request):
+def verify_phone(request):
     body, status = utils.verify(request.POST)
     return Response(data=body, status=status)
