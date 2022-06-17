@@ -13,12 +13,10 @@ class PhoneVerificationSerializer(serializers.ModelSerializer):
 
     def validate_phone(self, value: str):
         ''' Check if phone answers the format '''
-        value = value.strip().replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
-        
         if not (~value.find('+') and value[value.find('+') + 1:].isdigit()) or len(value) < 12:
-            raise serializers.ValidationError('Phone has wrong format. It should contain: Country Code, National Number and be 12 characters long')
+            raise serializers.ValidationError('Формат телефонного номера не правильный. Он должен содержать: код страны, национальный номер и быть длинной в 12 символов')
         
         if User.objects.filter(phone=value).exists():
-            raise serializers.ValidationError('User with that phone number already exists')
+            raise serializers.ValidationError('Пользователь с таким телефонным номером уже существует')
         
         return value
