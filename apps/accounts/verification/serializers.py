@@ -15,7 +15,7 @@ class PhoneVerificationSerializer(serializers.ModelSerializer):
         ''' Check if phone answers the format '''
         value = value.strip().replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
         
-        if not (~value.find('+') and value[value.find('+') + 1:].isdigit()):
+        if not (~value.find('+') and value[value.find('+') + 1:].isdigit()) or len(value) < 12:
             raise serializers.ValidationError('Phone has wrong format. It should contain: Country Code, National Number')
         
         if User.objects.filter(phone=value).exists():
