@@ -2,9 +2,7 @@ from apps.accounts.verification.models import PhoneVerification
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
-from faker import Faker
-
-from apps.accounts.verification.serializers import PhoneVerificationSerializer
+from ..constants import confirmed
 
 
 class VerificationTest(APITestCase):
@@ -25,9 +23,9 @@ class VerificationTest(APITestCase):
             data = { 'phone': phone }
             response = self.client.post(url, data, format='multipart')
             
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=self._message(phone, response.json()))
-            self.assertEqual(PhoneVerification.objects.count(), 1, msg=self._message(phone, response.json()))
-            self.assertTrue(PhoneVerification.objects.get().code.isdigit(), msg=self._message(phone, response.json()))
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=_message(phone, response.json()))
+            self.assertEqual(PhoneVerification.objects.count(), 1, msg=_message(phone, response.json()))
+            self.assertTrue(PhoneVerification.objects.get().code.isdigit(), msg=_message(phone, response.json()))
             PhoneVerification.objects.all().delete()
 
     
@@ -39,14 +37,15 @@ class VerificationTest(APITestCase):
             '22341234212',
             '1',
             '+77003377191*',
-            '*87003377191'
+            '*87003377191',
+            ''
         )
 
         for phone in invalid_phone_numbers:
             data = { 'phone': phone }
             response = self.client.post(url, data, format='multipart')
-            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST, msg=self._message(phone, response.json()))
-            self.assertEqual(PhoneVerification.objects.count(), 0, msg=self._message(phone, response.json()))
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST, msg=_message(phone, response.json()))
+            self.assertEqual(PhoneVerification.objects.count(), 0, msg=_message(phone, response.json()))
         
 
     def test_verify_phone_valid(self):
@@ -60,9 +59,31 @@ class VerificationTest(APITestCase):
 
         data = { 'phone': phone, 'code': code }
         response = self.client.put(url, data, format='multipart')
-        self.assertEqual(response.status_code, status.HTTP_200_OK, msg=self._message(phone, response.json()))
-        self.assertEqual(PhoneVerification.objects.count(), 0, msg=self._message(phone, response.json()))
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, msg=_message(phone, response.json()))
+    
+
+    def test_verify_phone_invalid(self):
+        url = reverse('verify-phone')
+        phone = '+77003377191'
+        code = '1234'
+
+        data = { 'phone': phone, 'code': code }
+        response = self.client.put(url, data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND, msg=_message(phone, response.json()))
+
+        PhoneVerification.objects.create(phone=phone, code=code)
+
+        data = { 'phone': phone }
+        response = self.client.put(url, data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND, msg=_message(phone, response.json()))
+
+        verification = PhoneVerification.objects.get()
+        verification.code = confirmed
+        verification.save()
+
+        response = self.client.put(url, data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST, msg=_message(phone, response.json()))
 
 
-    def _message(phone: str, json: dict) -> str:
-        return f'\n\nTesting phone number:\t{phone}. \nRecieved: \n\t{json}'
+def _message(phone: str, json: dict) -> str:
+    return f'\n\nTesting phone number:\t{phone}. \nRecieved: \n\t{json}'
