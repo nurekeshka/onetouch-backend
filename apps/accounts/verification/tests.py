@@ -43,6 +43,6 @@ class VerificationTest(APITestCase):
         for phone in invalid_phone_numbers:
             data = { 'phone': phone }
             response = self.client.post(url, data, format='multipart')
-            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST, msg=f'\n\nTesting phone number:\t{phone}. \nRecieved: \n\t{response.json()}')
             self.assertEqual(PhoneVerification.objects.count(), 0)
 
