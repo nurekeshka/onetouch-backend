@@ -9,6 +9,8 @@ from requests import get
 
 
 def start_new_verification(payload: str) -> tuple:
+    payload = payload.strip().replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
+
     if PhoneVerification.objects.filter(phone=payload).exists():
         PhoneVerification.objects.get(phone=payload).delete()
 
@@ -19,16 +21,16 @@ def start_new_verification(payload: str) -> tuple:
     else:
         return serializer.errors, status.HTTP_400_BAD_REQUEST
 
-    response = get(
-        url=send_sms_url,
-        params={
-            'apiKey': settings.SMS_API_KEY,
-            'recipient': verification.phone,
-            'text': f'GameRoom account verification code: {verification.code}'
-        }
-    )
+    # response = get(
+    #     url=send_sms_url,
+    #     params={
+    #         'apiKey': settings.SMS_API_KEY,
+    #         'recipient': verification.phone,
+    #         'text': f'GameRoom account verification code: {verification.code}'
+    #     }
+    # )
 
-    data = response.json()
+    # data = response.json()
 
     # if data.get('code') is 0:
     verification.save()
