@@ -1,7 +1,6 @@
 from apps.accounts.models import User
 from rest_framework import serializers
 from .models import PhoneVerification
-import phonenumbers as pns
 
 
 class PhoneVerificationSerializer(serializers.ModelSerializer):
@@ -16,7 +15,7 @@ class PhoneVerificationSerializer(serializers.ModelSerializer):
         ''' Check if phone answers the format '''
         value = value.strip().replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
         
-        if not ~value.find('+') and not value[value.find('+') + 1:].isnumeric():
+        if not (~value.find('+') and value[value.find('+') + 1:].isdigit()):
             raise serializers.ValidationError('Phone has wrong format. It should contain: Country Code, National Number')
         
         if User.objects.filter(phone=value).exists():
