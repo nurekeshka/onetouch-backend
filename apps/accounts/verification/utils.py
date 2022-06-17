@@ -52,7 +52,7 @@ def verify(payload: dict) -> tuple:
     elif verification.code == payload.get('code'):
         verification.code = confirmed
         verification.save()
-        return {'success': 'phone successfully verified'}, status.HTTP_200_OK
+        return {'success': 'phone successfully verified'}, status.HTTP_202_ACCEPTED
 
     else:
         return {'error': 'phone and code does not seem to match together'}, status.HTTP_404_NOT_FOUND
