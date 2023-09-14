@@ -1,18 +1,50 @@
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from .constants import FieldsErrorMessages
+from .serializers import PhotoSerializer
+from .serializers import FieldSerializer
+from .response import BadRequestException
+from .response import NotFoundException
 from . import utils
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def create_fake_information(request):
-    if request.user.is_staff:
-        utils.create_fake_information()
-    return Response(data='Done',status=201)
+class GeocodeApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        address = request.GET.get('address')
+        response = utils.get_lat_and_long(address)
+
+        return Response(data=response.json(), status=response.status_code)
 
 
-@api_view(['GET'])
-def get_latitude_and_longitude(request):
-    response = utils.get_lat_and_long(request.GET.get('address'))
-    return Response(data=response)
+class PhotoView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        field_id = int(request.GET.get('field-id'))
+        field = utils.get_field_by_id(field_id)
+
+        photos = utils.get_all_photos(field)
+
+        serializer = PhotoSerializer(instance=photos, many=True)
+        return Response(data=serializer.data)
+
+
+class FieldView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        try:
+            id = int(request.GET.get('id'))
+        except (ValueError, TypeError):
+            return BadRequestException(FieldsErrorMessages.bad_request.value)
+        else:
+            if not utils.field_exists(id):
+                return NotFoundException(FieldsErrorMessages.not_found.value)
+
+        field = utils.get_field_by_id(id)
+
+        serializer = FieldSerializer(instance=field, many=False)
+        return Response(data=serializer.data)
