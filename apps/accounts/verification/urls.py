@@ -1,7 +1,8 @@
 from django.urls import path
+from .constants import VerificationRoutes
 from . import views
 
 urlpatterns = [
-    path('start/', views.start_phone_verification, name='start-phone-verification'),
-    path('verify/', views.verify_phone, name='verify-phone')
+    path('create/', views.CreatePhoneVerification.as_view(), name=VerificationRoutes.create.value),
+    path('verify/', views.ConfirmVerification.as_view(), name=VerificationRoutes.verify.value)
 ]
