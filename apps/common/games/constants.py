@@ -1,3 +1,10 @@
+from enum import Enum
+
+
+class GamesRoutes(Enum):
+    all_games = 'all-games'
+
+
 TEAM_NAMES = (
     'Оранжевые',
     'Синие',
