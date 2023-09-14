@@ -1,58 +1,42 @@
-from .serializers import PhoneVerificationSerializer
-from apps.accounts.constants import confirmed
-from .constants import send_sms_url
+from apps.accounts.models import User
+from .constants import PHONE_CLEANING_TABLE
+from .constants import MOBIZON_URL
+from .constants import MOBIZON_SMS_TEXT
 from .models import PhoneVerification
-from rest_framework import status
 from django.conf import settings
 from random import randint
 from requests import get
 
 
-def start_new_verification(payload: str) -> tuple:
-    payload = payload.strip().replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
-
-    if PhoneVerification.objects.filter(phone=payload).exists():
-        PhoneVerification.objects.get(phone=payload).delete()
-
-    serializer = PhoneVerificationSerializer(data={'phone': payload, 'code': randint(1000, 9999)}, many=False)
-    
-    if serializer.is_valid():
-        verification = serializer.create(serializer.validated_data)
-    else:
-        return serializer.errors, status.HTTP_400_BAD_REQUEST
-
-    # response = get(
-    #     url=send_sms_url,
-    #     params={
-    #         'apiKey': settings.SMS_API_KEY,
-    #         'recipient': verification.phone,
-    #         'text': f'GameRoom account verification code: {verification.code}'
-    #     }
-    # )
-
-    # data = response.json()
-
-    # if data.get('code') is 0:
-    verification.save()
-    return serializer.data, status.HTTP_201_CREATED
-    # else:
-    #     verification.delete()
-    #     return data, response.status_code
+def get_phone_verification(phone: str) -> PhoneVerification:
+    return PhoneVerification.objects.get(phone=phone)
 
 
-def verify(payload: dict) -> tuple:
-    try:
-        verification = PhoneVerification.objects.get(phone=payload.get('phone'))
-    except PhoneVerification.DoesNotExist:
-        return {'error': 'phone verification does not exist in verification table'}, status.HTTP_404_NOT_FOUND
-    
-    if verification.code == confirmed:
-        return {'error': 'phone is already verified'}, status.HTTP_400_BAD_REQUEST
+def create_random_code() -> str:
+    return randint(1000, 9999)
 
-    elif verification.code == payload.get('code'):
-        verification.code = confirmed
-        verification.save()
-        return {'success': 'phone successfully verified'}, status.HTTP_202_ACCEPTED
 
-    else:
-        return {'error': 'phone and code does not seem to match together'}, status.HTTP_404_NOT_FOUND
+def verification_exists(phone: str) -> bool:
+    return PhoneVerification.objects.filter(phone=phone).exists()
+
+
+def account_exists(phone: str) -> bool:
+    return User.objects.filter(phone=phone).exists()
+
+
+def delete_verification(phone: str) -> PhoneVerification:
+    return PhoneVerification.objects.get(phone=phone).delete()
+
+
+def send_confirmation_code(phone: str, code: str) -> dict:
+    return get(
+        url=MOBIZON_URL,
+        params={'apiKey': settings.SMS_API_KEY,
+                'recipient': phone,
+                'text': MOBIZON_SMS_TEXT.format(code)
+                }
+    ).json()
+
+
+def format_phone(payload: str) -> str:
+    return payload.translate(PHONE_CLEANING_TABLE)
