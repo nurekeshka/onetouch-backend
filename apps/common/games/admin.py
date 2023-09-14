@@ -8,11 +8,13 @@ class GameAdmin(admin.ModelAdmin):
     fields = ('field', 'form', 'date', 'start', 'end', 'payment')
     order_by = ('date',)
 
+
 @admin.register(models.Team)
 class TeamAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'game', 'emoji')
     fields = ('name', 'players', 'game', 'emoji')
-    order_by = ('name')
+    order_by = ('name',)
+
 
 @admin.register(models.Player)
 class PlayerAdmin(admin.ModelAdmin):
