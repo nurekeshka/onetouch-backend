@@ -1,15 +1,17 @@
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from . import utils
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_all(request):
-    body, status = utils.get_all_for_day(
-        date=request.GET.get('date'),
-        ordering=request.GET.get('ordering')
-    )
-    
-    return Response(data=body, status=status)
+class GamesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        date = request.GET.get('date')
+        ordering = 1 if bool(request.GET.get('ordering')) else -1
+
+        games = utils.games_for_day(date, ordering)
+        data = utils.serialize_games(games)
+
+        return Response(data, 200)
