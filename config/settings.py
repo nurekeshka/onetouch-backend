@@ -34,6 +34,7 @@ SECRET_KEY = 'django-insecure-hixt)#t6jc0t9_zm-v(5wrxhl+q*vxkzuwvkw+38*y(o&h)l0m
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(config.get('SETTINGS', 'DEVELOPMENT'))
+ENABLE_SMS = bool(config.get('SETTINGS', 'ENABLE_SMS'))
 
 VERSION = 'DEVELOPMENT' if DEBUG else 'PRODUCTION'
 ALLOWED_HOSTS = ["*"]
@@ -162,12 +163,12 @@ TELEGRAM_BOT_API_KEY = config.get('API KEYS', 'AIRSOFT_BOT')
 
 # REST Framework configuration
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [ 'rest_framework.authentication.TokenAuthentication' ],
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication'],
     'TEST_REQUEST_DEFAULT_FORMAT': 'multipart'
 }
 
 # Authentication model
-AUTH_USER_MODEL =  'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 # STATIC_ROOT
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
