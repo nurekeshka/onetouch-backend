@@ -14,7 +14,7 @@ venv/
 ENV/ 
 env.bak/ 
 venv.bak/ 
-*.json
+*.postman_collection.json
 **/migrations/*.py
 !__init__.py
 settings.ini
